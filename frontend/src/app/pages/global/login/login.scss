@@ -1,0 +1,31 @@
+@import "../../../theme/styles/variables";
+
+.login-container{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background:url('../../../../assets/img/app/background_login.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+.layer {
+    background-color: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding-top: 50px;
+}
+    .card{
+      padding: 15px;
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+    .logo-login{
+      max-width: 250px;
+      padding-bottom: 40px;
+    }
+}

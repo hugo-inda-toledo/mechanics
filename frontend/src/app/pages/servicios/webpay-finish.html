@@ -1,0 +1,182 @@
+<div class="row">
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 bottom-15">
+		<div widget class="card">
+			<div class="card-header">
+				<span>Resumen del Proceso de Pago</span>
+				<div class="widget-controls">
+					<a data-widgster="fullscreen" href="#" class="transition"><i class="glyphicon glyphicon-resize-full"></i></a>
+					<a data-widgster="restore" href="#" class="transition"><i class="glyphicon glyphicon-resize-small"></i></a>
+				</div>
+			</div>
+			<div class="card-block widget-body">
+				<div class="row">
+				  <div class="col-sm-12">
+					<div *ngIf="payments">
+            <p class="font-weight-bold pa-1 text-xs-center msg-webpay-finnish">¡FELICITACIONES! <br>Hemos enviado tu solicitud a nuestro equipo. En los próximos minutos confirmaremos quién será tu mecánico.</p>
+            <hr>
+
+						<div *ngIf="payments.responseCode != '0'" class="white text-xs-center font-weight-bold" style="font-family: Arial;font-size: 14px;">TRANSACCIÓN DE PAGO NO REALIZADA <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> </div>
+						<div *ngIf="payments.responseCode == '0'" class="white text-xs-center font-weight-bold" style="font-family: Arial;font-size: 14px;">RESUMEN DEL PROCESO DE PAGO <i class="fa fa-credit-card" aria-hidden="true"></i></div>
+						<div class="white pa-1">
+							<div *ngIf="payments.responseCode == '0'">
+								<table class="mx-auto">
+									<tr>
+										<td class="text-xs-right font-weight-bold">Orden de Servicio:</td>
+										<td>&nbsp;{{ payments.id}}</td>
+									</tr>
+									<tr>
+										<td class="text-xs-right font-weight-bold">Nombre de Comercio:</td>
+										<td>&nbsp;FullMec </td>
+									</tr>
+									<tr>
+										<td class="text-xs-right font-weight-bold">Monto:</td>
+										<td>&nbsp;
+											<span id="monto_webpay"> {{payments.amount_tbk | currency:'CLP':true:'1.0-0'}}</span>
+										</td>
+									</tr>
+									<tr>
+										<td class="text-xs-right font-weight-bold">Código de Autorización:</td>
+										<td>&nbsp;{{ payments.authorizationCode}}</td>
+									</tr>
+									<tr>
+										<td class="text-xs-right font-weight-bold">Fecha de Transacción:</td>
+										<td>&nbsp;{{ payments.transactionDate | date: 'dd/MM/yyyy HH:mm'}}</td>
+									</tr>
+									<tr>
+										<td class="text-xs-right font-weight-bold">Autorización:</td>
+										<td>&nbsp;
+											<span *ngIf="payments.responseCode == '0'"> Transacción Aprobada <i class="fa fa-check text-success font-weight-bold" aria-hidden="true"></i></span>
+											<span *ngIf="payments.responseCode == '-1'"> Rechazo de Transacción </span>
+											<span *ngIf="payments.responseCode == '-2'"> Transacción debe reintentarse </span>
+											<span *ngIf="payments.responseCode == '-3'"> Error en Transacción </span>
+											<span *ngIf="payments.responseCode == '-4'"> Rechazo de Transacción </span>
+											<span *ngIf="payments.responseCode == '-5'"> Rechazo por Error de Tasa </span>
+											<span *ngIf="payments.responseCode == '-6'"> Excede Cupo Máximo Mensual </span>
+											<span *ngIf="payments.responseCode == '-7'"> Excede Límite Diario por Transacción </span>
+											<span *ngIf="payments.responseCode == '-8'"> Rubro no autorizado</span>
+										</td>
+									</tr>
+									<tr *ngIf="payments.VCI != 'TSY'">
+										<td class="text-xs-right font-weight-bold">Detalle:</td>
+										<td>&nbsp;
+											<span *ngIf="payments.VCI == 'TSY'"> Autenticación Exitosa </span>
+											<span *ngIf="payments.VCI == 'TSN'"> Autenticación Fallida </span>
+											<span *ngIf="payments.VCI == 'TO5'"> Tiempo Máximo Excedido para Autenticación </span>
+											<span *ngIf="payments.VCI == 'ABO'"> Autenticación Abortada por Tarjeta Habiente </span>
+											<span *ngIf="payments.VCI == 'U3'"> Error Interno en la Autenticación </span>
+										</td>
+									</tr>
+									<tr>
+										<td class="text-xs-right font-weight-bold">Tipo de Pago:</td>
+										<td>&nbsp;
+											<span *ngIf="payments.paymentTypeCode == 'VD'"> Débito </span>
+											<span *ngIf="payments.paymentTypeCode != 'VD'"> Crédito </span>
+										</td>
+									</tr>
+									<tr>
+										<td class="text-xs-right font-weight-bold">Tipo de Cuotas:</td>
+										<td>&nbsp;
+										    <span *ngIf="payments.paymentTypeCode == 'VD'"> Venta Débito </span>
+										    <span *ngIf="payments.paymentTypeCode == 'VN'"> Sin Cuotas </span>
+										    <span *ngIf="payments.paymentTypeCode == 'VC'"> Cuotas Normales </span>
+										    <span *ngIf="payments.paymentTypeCode == 'SI'"> Sin Interés </span>
+										    <span *ngIf="payments.paymentTypeCode == 'S2'"> Sin Interés </span>
+										    <span *ngIf="payments.paymentTypeCode == 'NC'"> Sin Interés </span>
+										</td>
+									</tr>
+									<tr>
+										<td class="text-xs-right font-weight-bold">Cantidad de Cuotas:</td>
+										<td>&nbsp;
+											<span *ngIf="payments.paymentTypeCode == 'VD'"> 0 </span>
+										    <span *ngIf="payments.paymentTypeCode == 'VN'"> 0 </span>
+										    <span *ngIf="payments.paymentTypeCode == 'VC'"> {{ payments.sharesNumber }} </span>
+										    <span *ngIf="payments.paymentTypeCode == 'SI'"> 3 </span>
+										    <span *ngIf="payments.paymentTypeCode == 'S2'"> 2 </span>
+										    <span *ngIf="payments.paymentTypeCode == 'NC'"> {{ payments.sharesNumber }} </span>
+										</td>
+									</tr>
+									<tr>
+										<td class="text-xs-right font-weight-bold">Número de Tarjeta:</td>
+										<td>&nbsp;**********{{ payments.cardNumber}}</td>
+									</tr>
+									<tr>
+										<td colspan="2" class="text-xs-left font-weight-bold">Descripción de Bienes y Servicios:</td>
+									</tr>
+									<tr>
+										<td colspan="2" id="descripcion" style="padding: 2px 2px 2px 8px;">
+                      <ul *ngIf="request && request.available_services">
+                        <ng-container *ngIf="request.available_services">
+                          <ng-container *ngFor="let AV of request.available_services">
+                            <li *ngIf="AV._joinData.active"> {{ AV.name}}  {{AV.total_price | currency:'CLP':true:'1.0-0' }}</li>
+                          </ng-container>
+                        </ng-container>
+
+                        <ng-container *ngIf="request.requests_mechanic_mods">
+                          <ng-container *ngFor="let AVM of request.requests_mechanic_mods">
+                            <ng-container *ngIf="AVM.status !== 3">
+                              <ng-container *ngFor="let AVMItem of AVM.available_services">
+                                <li *ngIf="AVMItem._joinData.active"> {{ AVMItem.name}}  {{  AVM.status !== 4 ?  '(PENDIENTE)' : ''}} {{AVMItem.total_price | currency:'CLP':true:'1.0-0' }}</li>
+                              </ng-container>
+                            </ng-container>
+                          </ng-container>
+                        </ng-container>
+                      </ul>
+										</td>
+									</tr>
+								</table>
+								<div *ngIf="payments.request.invoices && payments.request.invoices.length>0">
+								<hr>
+								<table class="mx-auto">
+									<tr>
+										<td colspan="2" class="text-xs-right font-weight-bold">DATOS PARA GENERAR LA FACTURA</td>
+									</tr>
+									<tr>
+										<td class="text-xs-right font-weight-bold">Nombre:</td>
+										<td>&nbsp;{{ payments.request.invoices[0].full_name}}</td>
+									</tr>
+									<tr>
+										<td class="text-xs-right font-weight-bold">Dirección:</td>
+										<td>&nbsp;{{ payments.request.invoices[0].address}}</td>
+									</tr>
+									<tr>
+										<td class="text-xs-right font-weight-bold">RUT:</td>
+										<td>&nbsp;{{ payments.request.invoices[0].rut}}</td>
+									</tr>
+									<tr>
+										<td class="text-xs-right font-weight-bold">Giro:</td>
+										<td>&nbsp;{{ payments.request.invoices[0].giro}}</td>
+									</tr>
+								</table>
+								</div>
+
+
+								</div>
+								<div *ngIf="payments.responseCode != '0'">
+									<table class="mx-auto">
+										<tr>
+											<td class="text-xs-left font-weight-bold" style="width: 39.5%;">Orden de Servicio:</td>
+											<td class="text-xs-left">&nbsp;{{ payments.id}}</td>
+										</tr>
+										<tr>
+											<td colspan="2" class="text-xs-left">
+												<span class="text-xs-right font-weight-bold">Posibles ausas de este rechazo son:</span><br>
+												&nbsp;-Error en el ingreso de los datos de su tarjeta de Crédito o Débito (fecha y/o código de seguridad).<br>
+												&nbsp;-Su tarjeta de Crédito o Débito no cuenta con saldo suficiente.<br>
+												&nbsp;-Tarjeta aún no habilitada en el sistema financiero.<br>
+											</td>
+										</tr>
+									</table>
+								</div>
+						</div>
+
+
+
+
+					</div>
+				  </div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

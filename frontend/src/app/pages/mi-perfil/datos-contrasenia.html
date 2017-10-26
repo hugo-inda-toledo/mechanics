@@ -1,0 +1,53 @@
+<div widget class="card" *ngIf="user">
+    <div class="card-header">
+        <span>Cambiar Contraseña</span>
+        <div class="widget-controls">
+            <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+            <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>
+            <a data-widgster="fullscreen" href="#" class="transition"><i class="glyphicon glyphicon-resize-full"></i></a>
+            <a data-widgster="restore" href="#" class="transition"><i class="glyphicon glyphicon-resize-small"></i></a>
+            <a  class="transition"><i (click)="disableInputs()" class="glyphicon glyphicon-edit"></i></a>
+        </div>
+    </div>
+    <div class="card-block widget-body">
+      <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="text-xs-left">
+          <div class="form-group">
+              <label for="password-old-f">Contraseña actual*</label>
+              <input id="password-old-f" (ngModelChange)="clearActualPasswordError($event)" [formControl]="oldpassword" class="form-control checking-field" type="password" minlength="6" >
+               <span class="help-block" *ngIf="form.get('oldpassword').touched">
+                  <span class="text-danger" *ngIf="form.get('oldpassword').hasError('required')">Este campo es requerido</span>
+                  <span class="text-danger" *ngIf="form.get('oldpassword').hasError('minlength')">Contraseña debe ser de un largo mínimo de 6 caracteres</span>
+                  <span class="text-danger" *ngIf="form.get('oldpassword').hasError('notActualPassword')">Contraseña ingresada no es la actual</span>
+              </span>
+          </div>
+
+          <div class="form-group">
+              <label for="password-f">Contraseña nueva*</label>
+              <input id="password-f" [formControl]="password" class="form-control checking-field" type="password" minlength="6" >
+               <span class="help-block" *ngIf="form.get('password').touched">
+                  <span class="text-danger" *ngIf="form.get('password').hasError('required')">Este campo es requerido</span>
+                  <span class="text-danger" *ngIf="form.get('password').hasError('minlength')">Contraseña debe ser de un largo mínimo de 6 caracteres</span>
+              </span>
+          </div>
+
+          <div class="form-group">
+              <label for="confirm-password-f">Repetir contraseña nueva*</label>
+              <input id="confirm-password-f" [formControl]="confirmPassword" class="form-control checking-field" type="password">
+              <span class="help-block" *ngIf="form.get('confirmPassword').touched">
+                  <span class="text-danger" *ngIf="form.get('confirmPassword').hasError('required')">Este campo es requerido</span>
+                  <span class="text-danger" *ngIf="form.get('confirmPassword').hasError('mismatchedPasswords')">Las contraseñas nuevas no coinciden</span>
+              </span>
+          </div>
+
+          <div class="alert alert-danger" role="alert" *ngIf="!loading && error">
+              <strong>Error: </strong> {{error}}
+          </div>
+
+          <div class="form-group col-xl-4 col-md-6 col-xs-10 offset-xl-4 offset-md-3 offset-xs-1" [hidden]="canEdit">
+              <button [disabled]="!form.valid" class="btn btn-blue btn-less-rounded btn-block" type="submit">Guardar</button>
+          </div>
+      </form>
+    </div>
+
+    <ng2-toasty [position]="'top-right'"></ng2-toasty>
+</div>

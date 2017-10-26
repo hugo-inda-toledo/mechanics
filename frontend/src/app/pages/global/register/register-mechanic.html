@@ -1,0 +1,139 @@
+<div class="register-container">
+    <div class="col-xl-4 col-md-6 col-xs-10 offset-xl-4 offset-md-3 offset-xs-1">
+        <div class="card">
+            <div class="card-block text-xs-center">
+                <h2 class="card-title text-white">Registro Mecánico</h2>
+                <a routerLink="/login" class="btn btn-link transition bottom-15">¿Ya tienes cuenta?, Conéctate!</a>
+
+                <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="text-xs-left">
+                    <div class="form-group">
+                        <label for="nombre-f" class="text-white text-bold">Nombre*</label>
+                        <input id="nombre-f" [formControl]="firstName" class="form-control checking-field" type="text">
+                        <span class="help-block" *ngIf="form.get('firstName').touched">
+                            <span class="text-danger" *ngIf="form.get('firstName').hasError('required')">Este campo es requerido</span>
+                            <span class="text-danger" *ngIf="form.get('firstName').hasError('minlength')">Se requiere un mínimo de 3 caracteres</span>
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apellido-f" class="text-white text-bold">Apellido*</label>
+                        <input id="apellido-f" [formControl]="lastName" class="form-control checking-field" type="text">
+                        <span class="help-block" *ngIf="form.get('lastName').touched">
+                            <span class="text-danger" *ngIf="form.get('lastName').hasError('required')">Este campo es requerido</span>
+                            <span class="text-danger" *ngIf="form.get('lastName').hasError('minlength')">Se requiere un mínimo de 3 caracteres</span>
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email-f" class="text-white text-bold">Correo electrónico*</label>
+                        <input for="email-f" [formControl]="email" class="form-control checking-field"  type="text">
+                        <span class="help-block" *ngIf="form.get('email').touched">
+                            <span class="text-danger" *ngIf="form.get('email').hasError('required')">Este campo es requerido</span>
+                            <span class="text-danger" *ngIf="form.get('email').hasError('invalidEmail')">Formato inválido</span>
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone1-f" class="text-white text-bold">Número de télefono*</label>
+                        <input for="phone1-f" [formControl]="phone1" class="form-control checking-field"  type="text">
+                        <span class="help-block" *ngIf="form.get('phone1').touched">
+                            <span class="text-danger" *ngIf="form.get('phone1').hasError('required')">Este campo es requerido</span>
+                        </span>
+                    </div>
+
+                    <!--<div class="form-group">
+                      <label for="city-f" class="text-white text-bold">Ciudad*</label>
+                      <select for="city-f" [(formControl)]="city_id" class="form-control checking-field" (change)="onChangeCity($event.target.value)" placeholder="Escoga su ciudad">
+                          <option *ngFor="let city of cities" [ngValue]="city.id" #elem [id]="city.id">{{city.name}}</option>
+                      </select>
+                      <span class="help-block" *ngIf="form.get('city_id').touched">
+                          <span class="text-danger" *ngIf="form.get('city_id').hasError('required')">Este campo es requerido</span>
+                      </span>
+                    </div>
+
+                    <div class="form-group">
+                      <div *ngIf="communes">
+                        <label for="commune-f" class="text-white text-bold">Comuna*</label>
+                        <select for="commune-f" [(formControl)]="commune_id" class="form-control checking-field" placeholder="Escoga su comuna">
+                            <option *ngFor="let commune of communes" [ngValue]="commune.id" #elem [id]="commune.id">{{commune.name}}</option>
+                        </select>
+                        <span class="help-block" *ngIf="form.get('commune_id').touched">
+                            <span class="text-danger" *ngIf="form.get('commune_id').hasError('required')">Este campo es requerido</span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address_name-f" class="text-white text-bold">Dirección*</label>
+                        <input for="address_name-f" [formControl]="address_name" class="form-control checking-field"  type="text">
+                        <span class="help-block" *ngIf="form.get('address_name').touched">
+                            <span class="text-danger" *ngIf="form.get('address_name').hasError('required')">Este campo es requerido</span>
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address_number-f" class="text-white text-bold">Numeración*</label>
+                        <input for="address_number-f" [formControl]="address_number" class="form-control checking-field"  type="text">
+                        <span class="help-block" *ngIf="form.get('address_number').touched">
+                            <span class="text-danger" *ngIf="form.get('address_number').hasError('required')">Este campo es requerido</span>
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address_complement-f" class="text-white text-bold">Oficina / Depto / Otro</label>
+                        <input for="address_complement-f" [formControl]="address_complement" class="form-control checking-field"  type="text">
+                    </div>-->
+
+                    <div class="form-group">
+                        <label for="password-f" class="text-white text-bold">Contraseña*</label>
+                        <input [formControl]="password" class="form-control checking-field" type="password" minlength="6" >
+                         <span class="help-block" *ngIf="form.get('password').touched">
+                            <span class="text-danger" *ngIf="form.get('password').hasError('required')">Este campo es requerido</span>
+                            <span class="text-danger" *ngIf="form.get('password').hasError('minlength')">Contraseña debe ser de un largo mínimo de 6 caracteres</span>
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm-password-f" class="text-white text-bold">Repetir contraseña*</label>
+                        <input id="confirm-password-f" [formControl]="confirmPassword" class="form-control checking-field" type="password">
+                        <span class="help-block" *ngIf="form.get('confirmPassword').touched">
+                            <span class="text-danger" *ngIf="form.get('confirmPassword').hasError('required')">Este campo es requerido</span>
+                            <span class="text-danger" *ngIf="form.get('confirmPassword').hasError('mismatchedPasswords')">Las contraseñas no coinciden</span>
+                        </span>
+                    </div>
+
+                    <div class="alert alert-danger" role="alert" *ngIf="!loading && error">
+                        <strong>Error: </strong> {{error}}
+                    </div>
+
+                    <div class="form-group">
+                      <div class="card-block text-xs-center">
+                        <button [disabled]="!form.valid" class="btn btn-gray btn-less-rounded btn-block" type="submit">Registrarme</button>
+                      </div>
+                    </div>
+                    
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-info" data-toggle="modal" data-target="#register-client-modal" id="openModalButton" [hidden]="true">Info</button>
+
+<div class="modal fade" id="register-client-modal" tabindex="-1" role="dialog" aria-labelledby="modal-info-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header state modal-info">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title" id="modal-info-label"><i class="fa fa-info"></i>Correo de registro</h4>
+        </div>
+        <div class="modal-body">
+             Te hemos enviado un correo de validación. Por favor sigue el link que aparece en el correo para terminar tu registro.
+          <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="redirectLogin()">ACEPTAR</button>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

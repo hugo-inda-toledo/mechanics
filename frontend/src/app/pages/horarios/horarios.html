@@ -1,0 +1,49 @@
+<div class="row">
+
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 bottom-15">
+        <div widget class="card">
+            <div class="card-header">
+                <span>HORARIO</span>
+                <span>
+                  <button [hidden]="!canEdit" type="button" class="btn btn-blue btn-less-rounded btn-s" (click)="onSubmit()">Guardar</button>
+                </span>
+                <div class="widget-controls">
+                    <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+                    <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>
+                    <a data-widgster="fullscreen" href="#" class="transition"><i class="glyphicon glyphicon-resize-full"></i></a>
+                    <a data-widgster="restore" href="#" class="transition"><i class="glyphicon glyphicon-resize-small"></i></a>
+                    <a (click)="activateEdit()" class="transition"><i class="glyphicon glyphicon-edit"></i></a>
+                </div>
+            </div>
+            <div class="card-block widget-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Horas</th>
+                                <th *ngFor="let day of days">
+                                  {{day}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let hour of hours">
+                              <th style="text-align: center;">{{hour}} a {{ hoursEnd[hours.indexOf(hour)] }}</th>
+                              <th class="cell-check" *ngFor="let day of days" (click)="clickOnHour(day, hour)">
+                                <div *ngIf="scheduleAvailable[day] && scheduleAvailable[day][hour]">
+                                  <i aria-hidden="true" class="fa fa-check check-green"></i>
+                                </div>
+                              </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xl-4 col-md-6 col-xs-10 offset-xl-4 offset-md-3 offset-xs-1">
+                  <button [hidden]="!canEdit" type="button" class="btn btn-blue btn-less-rounded btn-block" (click)="onSubmit()">Guardar</button><br />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng2-toasty [position]="'top-right'"></ng2-toasty>
+</div>

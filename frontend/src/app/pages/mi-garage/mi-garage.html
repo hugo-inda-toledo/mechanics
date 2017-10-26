@@ -1,0 +1,120 @@
+<div class="row">
+  <div class="col-xs-12 text-xs-right mb-1">
+    <button type="button" class="btn btn-blue btn-less-rounded pull-xs-right" (click)="addCar()" >Agregar un Auto</button>
+  </div>
+</div>
+<div class="row">
+   <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-xs-12 bottom-15" *ngFor="let car of cars">
+      <div class="card-deck-wrapper">
+          <div class="card-deck">
+              <div class="card">
+                <div class="card-header">{{car.patent}} {{car.model}}
+                    <div class="widget-controls">
+                      <a  class="transition" [routerLink]="['view-car', car.id]"><i class="glyphicon glyphicon-eye-open"></i></a>
+                      <a  class="transition" [routerLink]="['edit-car', car.id]"><i class="glyphicon glyphicon-edit"></i></a>
+                  </div>
+                </div>
+                <div class="card-block">
+                  <div *ngFor="let req of car.requests"> {{ req.created | date: 'dd/MM/yyyy' }} - Lorem ipsum
+                    <a href="javascript:void(0);" *ngIf="req.qualifications_to_mechanics.length!=0"><i title="Calificado" class="glyphicon glyphicon-star pull-right cursor-pointer"></i></a>
+                    <a href="javascript:void(0);" *ngIf="req.qualifications_to_mechanics.length==0" (click)="ShowModalQualifications(req.mechanic_id,req.id)"><i title="Calificar mecánico" class="glyphicon glyphicon-star-empty pull-right cursor-pointer"></i></a>
+                  </div>
+                </div>
+                <div class="card-footerd my-0 pl-1">
+
+                  <button type="button" class="btn btn-success btn-less-rounded pull-xs-left mb-1" [routerLink]="['view-car', car.id]">Ver</button>
+                  <button type="button" class="btn btn-info btn-less-rounded pull-xs-left mb-1" [routerLink]="['edit-car', car.id]">Editar</button>
+                    <button type="button" class="btn btn-danger btn-less-rounded pull-xs-left mb-1" (click)="ShowModalDeleteCar(car.id,car.patent)">Eliminar</button>
+                    <a class="d-none" id="a_delete_car_{{car.id}}" (click)="deleteCar(car.id)"></a>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-info" data-toggle="modal" data-target="#delete-car-modal" id="openModalButton" [hidden]="true">Info</button>
+<div class="modal fade" id="delete-car-modal" tabindex="-1" role="dialog" aria-labelledby="modal-info-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header state modal-info">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title" id="modal-info-label"><i class="fa fa-info"></i>Eliminar auto</h4>
+        </div>
+        <div class="modal-body">
+            ¿Estás seguro de eliminar el auto de patente: <span id="modal-patent" class="font-weight-bold"></span>?
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger btn-less-rounded"  data-dismiss="modal">CANCELAR</button>
+              <button type="button" class="btn btn-blue btn-less-rounded" data-dismiss="modal" id="btn_accept">ACEPTAR</button>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<button class="btn btn-danger" id="modal_success" data-target="#success-modal" data-toggle="modal" type="button"  [hidden]="true">.</button>
+<div aria-labelledby="modal-success-label" class="modal fade" id="success-modal" role="dialog" style="display: none;" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header state modal-success">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="modal-success-label"><i class="fa fa-check"></i>Registro Eliminado</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-blue btn-less-rounded" data-dismiss="modal" type="button">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="btn btn-danger" id="modal_error" data-target="#error-modal" data-toggle="modal" type="button" [hidden]="true">.</button>
+<div aria-labelledby="modal-error-label" class="modal fade" id="error-modal" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header state modal-danger">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="modal-error-label"><i class="fa fa-warning"></i>Registro no eliminado</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-blue btn-less-rounded" data-dismiss="modal" type="button">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-info" data-toggle="modal" data-target="#qualifications-mechanic-modal" id="openModalQualifications" [hidden]="true">Info</button>
+<div class="modal fade" id="qualifications-mechanic-modal" tabindex="-1" role="dialog" aria-labelledby="modal-info-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header state modal-info">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title" id="modal-info-label"><i class="glyphicon glyphicon-star"></i>Calificación Mecánico</h4>
+        </div>
+        <div class="modal-body text-xs-center">
+          <form [formGroup]="form" (ngSubmit)="onSubmitQualifications(form.value)" class="text-xs-center">
+            Por favor califica a tu mecánico: <br>En escala de 1 a 5, <br>
+            <b>¿Cómo calificarías a tu mecánico?</b>
+
+            <div class="form-group abc-radio abc-radio-info text-xs-center mt-1">
+              <input id="score-1" type="radio" value="1" [formControl]="score"><label for="score-1">1</label>&nbsp;&nbsp;
+              <input id="score-2" type="radio" value="2" [formControl]="score"><label for="score-2">2</label>&nbsp;&nbsp;
+              <input id="score-3" type="radio" value="3" [formControl]="score"><label for="score-3">3</label>&nbsp;&nbsp;
+              <input id="score-4" type="radio" value="4" [formControl]="score"><label for="score-4">4</label>&nbsp;&nbsp;
+              <input id="score-5" type="radio" value="5" [formControl]="score"><label for="score-5">5</label>
+            </div>
+            <div class="form-group px-2">
+              <label for="observations-f">Observaciones</label>
+              <textarea id="observations-f" [formControl]="observations" class="form-control"></textarea>
+            </div>
+            <div class="modal-footer">
+              <button [disabled]="!form.valid" type="submit" class="btn btn-blue btn-less-rounded"  id="btn_accept_qualifications">ACEPTAR</button>
+            </div>
+          </form>
+        </div>
+      </div>
+  </div>
+</div>

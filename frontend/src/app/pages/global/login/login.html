@@ -1,0 +1,66 @@
+<div class="login-container" >
+  <div class="layer">
+    <div class="col-xl-4 col-md-6 col-xs-10 offset-xl-4 offset-md-3 offset-xs-1">
+        <div class="card">
+            <div class="card-block text-xs-center">
+                <div class="row">
+                  <img class="logo-login" src="../assets/img/logo/logo_fullmec_monocromatico_blanco.png" >
+                </div>
+
+                <div class="row">
+                  <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class=" text-xs-left">
+                      <div class="form-group">
+                          <label for="email-f" class="text-white text-bold">Correo electrónico</label>
+                          <div class="input-group input-group">
+                            <!--<div class="input-group-addon"><i class="fa fa-envelope"></i></div>-->
+                            <input id="email-f" [formControl]="email" class="form-control checking-field" type="text">
+                          </div>
+                          <span class="help-block text-danger text-bold" *ngIf="form.get('email').touched && form.get('email').hasError('required')">Este campo es requerido</span>
+                          <span class="help-block text-danger text-bold" *ngIf="form.get('email').touched && form.get('email').hasError('invalidEmail')">Formato inválido</span>
+                      </div>
+                      <div class="form-group">
+                          <label for="password-f" class="text-white text-bold">Contraseña</label>
+                          <div class="input-group input-group">
+                            <!--<div class="input-group-addon"><i class="fa fa-key"></i></div>-->
+                            <input id="password-f" [formControl]="password" class="form-control checking-field" type="password">
+                          </div>
+                          <span style="float: right;display: block;" (click)="router.navigateByUrl('/recover-password')" class="help-block text-white text-bold">Recuperar contraseña</span>
+                          <span style="float: left;display: block;"class="help-block text-danger text-bold" *ngIf="form.get('password').touched && form.get('password').hasError('required')">Este campo es requerido</span>
+                          <span style="float: left;display: block;" class="help-block text-danger text-bold" *ngIf="form.get('password').touched && form.get('password').hasError('minlength')">Contraseña debe ser de un largo mínimo de 6 caracteres</span>
+                      </div>
+
+                      <div *ngIf="!loading && error">
+                        <div class="alert alert-danger" role="alert">
+                            {{error}}
+                        </div>
+                      </div>
+
+
+
+                      <div class="form-group">
+                        <div class="card-block text-xs-center">
+                          <button [disabled]="!form.valid" class="btn btn-gray btn-less-rounded transition" type="submit">Iniciar Sesión</button>
+                        </div>
+                      </div>
+                  </form>
+                </div>
+
+
+                <div class="row">
+                  <div class="card-block text-xs-center">
+                    <button type="button" (click)="router.navigateByUrl('/register-client')" class="btn btn-gray btn-less-rounded transition">Registrarse como usuario</button>
+                  </div>
+               </div>
+
+                <div class="row">
+                  <div class="card-block text-xs-center">
+                    <button type="button" (click)="router.navigateByUrl('/register-mechanic')" class="btn btn-gray btn-less-rounded transition">Registrarse como mecánico</button>
+                  </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

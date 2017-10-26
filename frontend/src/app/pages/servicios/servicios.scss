@@ -1,0 +1,30 @@
+.btn-group{
+  .dropdown-toggle{
+    background: none;
+    color: #fff;
+  }
+  .dropdown-menu{
+    &.dropdown-arrow-none{
+      &:before{
+        content: none;
+      }
+    }
+    .dropdown-item{
+      color: #242424;
+      line-height: 1.8;
+      &:hover{
+        color: #fff;
+      }
+      span{
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+
+.msg-webpay-finnish{
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}

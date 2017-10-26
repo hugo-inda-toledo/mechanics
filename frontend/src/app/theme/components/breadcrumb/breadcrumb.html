@@ -1,0 +1,17 @@
+<!--<div class="clearfix">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item text-uppercase">Home</li>
+        <li class="breadcrumb-item active text-uppercase">{{ activePageTitle }}</li>
+    </ol>
+</div>-->
+
+
+<div class="my-breadcrumb-wrapper">
+  <header class="my-breadcrumb">
+    <div class="my-breadcrumb-sizing"></div>
+    <div class="my-breadcrumb-content">
+      <h5 class="justify-start" style="padding-left: 10px;" (click)="backClicked()"><i class="fa fa-chevron-left" aria-hidden="true" *ngIf="showGoBack"></i></h5>
+      <h5 class="justify-start text-uppercase text-bold">{{ activePageTitle }}</h5>
+    </div>
+  </header>
+</div>

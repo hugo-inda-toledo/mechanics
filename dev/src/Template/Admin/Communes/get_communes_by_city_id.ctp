@@ -1,0 +1,1 @@
+<?php echo $this->Form->input($index_array.'.commune_id', ['label'=> 'Comuna', 'type' => 'select', 'options' => $communes, 'empty' => 'Selecciona una comuna', 'required' => true, 'default' => ($commune_id != '') ? $commune_id : '', ($disabled == 1) ? 'disabled' : '', 'id' => 'commune_id'] );?>

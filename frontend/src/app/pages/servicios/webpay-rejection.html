@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 bottom-15">
+		<div widget class="card">
+			<div class="card-header">
+				<span>Resumen del proceso de pago</span>
+				<div class="widget-controls">
+					<a data-widgster="fullscreen" href="#" class="transition"><i class="glyphicon glyphicon-resize-full"></i></a>
+					<a data-widgster="restore" href="#" class="transition"><i class="glyphicon glyphicon-resize-small"></i></a>
+				</div>
+			</div>
+			<div class="card-block widget-body">
+				<div class="row">
+				  <div class="col-sm-12">
+					<div *ngIf="payments">
+						<div *ngIf="payments.responseCode != '0'" class="white text-xs-center font-weight-bold" style="font-family: Arial;font-size: 14px;">TRANSACCIÓN DE PAGO NO REALIZADA <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> </div>
+						<div *ngIf="payments.responseCode != '0'">
+							<table class="mx-auto">
+								<tr>
+									<td class="text-xs-left font-weight-bold" style="width: 39.5%;">Orden de Servicio:</td>
+									<td class="text-xs-left">&nbsp;{{ payments.id}}</td>
+								</tr>
+								<tr>
+									<td colspan="2" class="text-xs-left">
+										<span class="text-xs-right font-weight-bold">Posibles causas de este rechazo son:</span><br>
+										&nbsp;-Error en el ingreso de los datos de su tarjeta de Crédito o Débito (fecha y/o código de seguridad).<br>
+										&nbsp;-Su tarjeta de Crédito o Débito no cuenta con saldo suficiente.<br>
+										&nbsp;-Tarjeta aún no habilitada en el sistema financiero.<br>
+									</td>
+								</tr>
+							</table>
+						</div>
+
+
+					</div>
+				  </div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

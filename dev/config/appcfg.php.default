@@ -1,0 +1,79 @@
+<?php
+/**
+* Para cambiar de configuración modificar el valor de $USE_CONFIG
+* Para agregar una nueva configuración agregar el arreglo correspondiente a $CONFIGS
+*/
+$USECONFIG = 'development';
+
+/**
+* Parámetros de configuración de la aplicación
+*
+* SESSION_TIMEOUT : Minutos que demora en expirar la Sesión.
+* APP_BASE_URL    : Url base de la aplicación, desde http:// (incluyendo) hasta / antes del controlador (sin el /), ejemplo http://www.baseurl.com/users/index sería http://www.baseurl.com
+* SANDBOX_MAIL    : Mail al que serán enviados los mails de notificaciones. Sí está vacío se enviará al destinatario que corresponde.
+* CHECK_APPCFG    : Variable para verificar que se ha importado este archivo. NO CAMBIAR VALOR.
+*/
+
+$CONFIGS = array(
+    'development' => array(
+
+        // base de datos
+        'DB_HOST'    => 'localhost',
+        'DB_USER'    => 'root',
+        'DB_PASS'    => '',
+        'DB_NAME'    => 'fullmec',
+
+        // email params: ejemplo gmail
+        'MAIL_HOST' => 'ssl://smtp.gmail.com',
+        'MAIL_PORT' => 465,
+        'MAIL_USERNAME' => 'intranet.ideauno@gmail.com',
+        'MAIL_PASSWORD' => '1d341n0nietostag',
+        'MAIL_TLS' => false,
+        // LOS QUE TENGAN PROBLEMAS DE SSL poner true
+        'MAIL_PROBLEM_SSL' => false,
+
+        // Correos a donde enviar información
+        'MAIL_CONTACT' => 'intranet.ideauno@gmail.com',
+        'MAIL_CALL_MECHANIC' => 'intranet.ideauno@gmail.com',
+        'MAIL_GENERAL' => 'intranet.ideauno@gmail.com',
+
+        // otros
+        'DEBUG'      => true,
+        'FULLBASEURL' => false,
+        'TIME_TOKEN' => 3600,// una hora
+        'TIME_SESSION' => 3600000 * 8, // 8 horas
+
+        //To apply inspection
+        'REQUEST_MAX_BEFORE_INSPECTION' => 3
+
+    ),
+
+    'production' => array(
+
+        // base de datos
+        'DB_HOST'    => 'localhost',
+        'DB_USER'    => 'root',
+        'DB_PASS'    => '',
+        'DB_NAME'    => 'dgoon_backend',
+
+        // email params: ejemplo gmail
+        'MAIL_HOST' => 'ssl://smtp.gmail.com',
+        'MAIL_PORT' => 465,
+        'MAIL_USERNAME' => 'xxxxxxx@gmail.com',
+        'MAIL_PASSWORD' => 'xxxxxxxxx',
+        'MAIL_TLS' => null,
+        // LOS QUE TENGAN PROBLEMAS DE SSL poner true
+        'MAIL_PROBLEM_SSL' => false,
+
+        // Correos a donde enviar información
+        'MAIL_CONTACT' => 'intranet.ideauno@gmail.com',
+        'MAIL_CALL_MECHANIC' => 'intranet.ideauno@gmail.com',
+        'MAIL_GENERAL' => 'intranet.ideauno@gmail.com',
+
+        // otros
+        'DEBUG'      => true,
+        'FULLBASEURL' => false,
+        'TIME_TOKEN' => 7776000,// 86400 Segundos X 90 Días, duracion de 3 meses aproximadamente
+        'TIME_SESSION' => 3600000 * 8, // 8 horas
+        ),
+    );

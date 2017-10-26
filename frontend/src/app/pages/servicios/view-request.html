@@ -1,0 +1,90 @@
+<div class="row" *ngIf="request">
+  <div class="card">
+    <div class="card-header">
+      <span>Solicitudes Activas</span>
+    </div>
+    <div class="card-block">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 bottom-15">
+            <div class="card">
+                <div class="card-header">
+                  <div class="row">
+                    <div class="col-xs-8">
+                      <span class="card-title">{{request.car.patent}} | {{request.car.car_brand.brand_name}} {{request.car.car_model.model_name}}</span>
+                    </div>
+                    <div class="col-xs-4">
+                      <div class="text-xs-right">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span>Acciones</span></button>
+                          <div class="dropdown-menu dropdown-menu-right dropdown-arrow-none">
+                            <a class="dropdown-item" *ngIf="request.status == 8" [routerLink]="['/pages/solicitar-servicios/step-2-add-requests/',request.id]"><span class="fa fa-credit-card"></span>Pagar</a>
+                            <a class="dropdown-item" (click)="cancelRequest(request.id)"><span class="fa fa-trash"></span>Cancelar Servicio</a>
+                            <a class="dropdown-item" *ngIf="request.status == 9" [routerLink]="['/pages/solicitar-servicios/approve-changes/', request.id]"><span class="fa fa-thumbs-up"></span>Aprobar cambios</a>
+                            <a class="dropdown-item" *ngIf="request.status == 10" [routerLink]="['/pages/solicitar-servicios/step-2-add-requests/',request.id]"><span class="fa fa-credit-card"></span>Pagar Modificaciones</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                    <span class="tag tag-warning">{{ estados[request.status] }}</span>
+                </div>
+                <div class="card-block">
+                  <table class="table table-striped">
+                    <tr>
+                      <td>Fecha</td>
+                      <td>{{ request.start_time_schedule_requested | date :'dd/MM/yyyy' }}</td>
+                    </tr>
+                    <tr>
+                      <td>Hora</td>
+                      <td>{{ request.start_time_schedule_requested | date :'HH:mm' }}</td>
+                    </tr>
+                    <tr>
+                      <td>Servicios</td>
+                      <td>
+                        <ul>
+                          <ng-container *ngIf="request.available_services">
+                            <ng-container *ngFor="let AV of request.available_services">
+                              <li *ngIf="AV._joinData.active"> {{ AV.name}}  {{AV.total_price | currency:'CLP':true:'1.0-0' }}</li>
+                            </ng-container>
+                          </ng-container>
+
+                          <ng-container *ngIf="request.requests_mechanic_mods">
+                            <ng-container *ngFor="let AVM of request.requests_mechanic_mods">
+                              <ng-container *ngIf="AVM.status !== 3">
+                                <ng-container *ngFor="let AVMItem of AVM.available_services">
+                                  <li *ngIf="AVMItem._joinData.active"> {{ AVMItem.name}}  {{  AVM.status !== 4 ?  '(PENDIENTE)' : ''}} {{AVMItem.total_price | currency:'CLP':true:'1.0-0' }}</li>
+                                </ng-container>
+                              </ng-container>
+                            </ng-container>
+                          </ng-container>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Total</td>
+                      <td>{{ request.total_price | currency:'CLP':true:'1.0-0' }}</td>
+                    </tr>
+                    <tr *ngIf="request.mechanic">
+                      <td>Mecánico</td>
+                      <td>{{ request.mechanic.full_name }}</td>
+                    </tr>
+                    <tr>
+                      <td>Estado</td>
+                      <td>{{estados[request.status]}}</td>
+                    </tr>
+                    <!--<tr *ngIf="request.mechanic">
+                      <td></td>
+                      <td>
+                        <a href="javascript:void(0);" *ngIf="request.qualifications_to_mechanics.length!=0"><i title="Calificado" class="glyphicon glyphicon-star pull-right cursor-pointer"></i></a>
+                        <a href="javascript:void(0);" *ngIf="request.qualifications_to_mechanics.length==0" (click)="ShowModalQualifications(request.mechanic_id,request.id)"><i title="Calificar mecánico" class="glyphicon glyphicon-star-empty pull-right cursor-pointer"></i></a>
+                      </td>
+                    </tr>-->
+                  </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

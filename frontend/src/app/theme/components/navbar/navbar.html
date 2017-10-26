@@ -1,0 +1,45 @@
+<nav class="navbar az-navbar">
+    <a class="navbar-brand" (click)="goHomePage()">
+        <img src="../assets/img/logo/logo_fullmec_monocromatico_blanco.png" alt="" class="hidden-sm-down" style="max-height:26px;">
+        <img src="../assets/img/logo/logo_fullmec_blanco.png" alt="" class="hidden-md-up" style="max-width: 137px; max-height:26px;">
+    </a>
+
+    <ul class="nav navbar-nav">
+        <li>
+            <a (click)="toggleMenu()" class="collapse-menu-link ion-navicon" id="collapse-menu-link"></a>
+        </li>
+
+        <!--<li class="hidden-sm-down">
+            <form role="search" class="app-search">
+                <input type="text" placeholder="Search..." class="form-control">
+                <a href="javascript:void(0)"><i class="ion-ios-search-strong"></i></a>
+            </form>
+        </li>-->
+
+        <div class="pull-right">
+
+            <messages></messages>
+
+            <div class="dropdown pull-right user-menu">
+                <a class="dropdown-toggle user-link" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                    <img src="../assets/img/users/default-user-image.png" alt="user-img" class="img-circle user-img">
+                    <span class="hidden-md-down">{{ user.name + ' ' + user.last_name }}</span>
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li class="user-info">
+                        <img src="../assets/img/users/default-user-image.png" alt="user-img" class="img-circle user-img">
+                        <p>
+                            {{ user.name + ' ' + user.last_name }}
+                            <small>{{ user.email }}</small>
+                        </p>
+                    </li>
+                    <a class="dropdown-item" (click)="goMiPerfil()"><i class="fa fa-user"></i>Mi Perfil</a>
+                    <a class="dropdown-item" routerLink="ajustes"><i class="fa fa-cog"></i>Ajustes</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" (click)="logout()"><i class="fa fa-power-off"></i>Salir</a>
+                </ul>
+            </div>
+        </div>
+    </ul>
+</nav>

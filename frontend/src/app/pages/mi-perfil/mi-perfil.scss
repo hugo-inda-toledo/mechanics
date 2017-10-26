@@ -1,0 +1,29 @@
+@import "../../theme/styles/variables";
+@import "../../../../node_modules/bootstrap/scss/_variables";
+@import "../../../../node_modules/bootstrap/scss/mixins";
+@import "../../../../node_modules/metrojs/release/MetroJs.Full/MetroJs";
+
+.user-info-box{
+    background-color: $blue;
+
+    .card-block{
+        padding: 3px;
+        img{
+            padding-top: 5px;
+            width: 75px;
+        }
+        h6, span{
+            font-weight: $font-normal;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-weight: 300;
+            color: $white;
+        }
+        a{
+            font-size: 20px;
+            color: $default-color;
+        }
+    }
+}

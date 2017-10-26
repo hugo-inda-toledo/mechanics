@@ -1,0 +1,208 @@
+<div class="row">
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 bottom-15">
+		<div widget class="card">
+			<div class="card-header">
+				<span>Nueva Solicitud</span>
+				<div class="widget-controls">
+					<a data-widgster="fullscreen" href="#" class="transition"><i class="glyphicon glyphicon-resize-full"></i></a>
+					<a data-widgster="restore" href="#" class="transition"><i class="glyphicon glyphicon-resize-small"></i></a>
+				</div>
+			</div>
+			<div class="card-block widget-body">
+				<div class="row">
+				  <div class="col-sm-12">
+					<div class="form-group">
+					  <label for="requests_types-f">Seleccione un servicio*</label>
+					  <select for="requests_types-f" name="requests_types_id" class="form-control checking-field" (change)="onChangeRequestsTypes($event.target.value)" placeholder="Seleccione un servicio">
+						  <option value="0" [ngValue]="0" #elem [id]="0">Seleccione un servicio</option>
+						  <option *ngFor="let RT of requests_types" value="{{RT.id}}" [ngValue]="RT.id" #elem [id]="RT.id">{{RT.name}}</option>
+					  </select>
+					</div>
+				  </div>
+				</div>
+				<div *ngIf="cars && avaliables_services">
+					<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="text-xs-left">
+					  <div class="row">
+						  <div class="col-sm-12">
+							<div class="form-group">
+							  <label for="requests_types-f">Seleccione un vehículo*</label>
+							  <select for="requests_types-f" [(formControl)]="car_id" class="form-control checking-field" placeholder="Seleccione un vehículo">
+								  <!-- <option value="0" [ngValue]="0" #elem [id]="0">Seleccione un servicio</option> -->
+								  <option *ngFor="let car of cars" value="{{car.id}}" [ngValue]="car.id" #elem [id]="car.id">{{car.patent}} - {{car.car_model.model_name}}</option>
+							  </select>
+
+							  <span class="help-block" *ngIf="form.get('car_id').touched">
+								  <span class="text-danger" *ngIf="form.get('car_id').hasError('required')">Este campo es requerido</span>
+							  </span>
+							</div>
+						  </div>
+						</div>
+
+						<div class="row">
+						  <div class="col-sm-12">
+							<div class="form-group">
+							  <label for="requests_types-f">Seleccione una subcategoria*</label>
+
+							  <div class="input-group">
+								<select for="requests_types-f"  [(formControl)]="avaliables_service_id" class="form-control checking-field" placeholder="Seleccione un servicio">
+									<option [ngValue]="0" #elem [id]="0" selected="selected">Seleccione un servicio</option>
+									<option *ngFor="let AServ of avaliables_services" [ngValue]="AServ.id" #elem [id]="AServ.id">{{AServ.name}}</option>
+								</select>
+								<span class="input-group-btn">
+									<button class="btn btn-info" type="button" title="Añadir" (click)="addAvaliablesServices(form.value)"><i class="glyphicon glyphicon-plus"></i></button>
+								</span>
+							  </div>
+							</div>
+						  </div>
+						</div>
+						<hr>
+						<div class="row" *ngIf="avaliables_services_add" >
+						  <div class="col-sm-12 mb-1 ">
+								<h5>Servicios</h5>
+								<ul class="list-group">
+									<li class="list-group-item" *ngFor="let item of avaliables_services_add">{{item.name}} <button class="btn btn-danger btn-xs pull-right" type="button" title="Eliminar" (click)="removeItemService(item.id)"><i class="glyphicon glyphicon-minus"></i></button></li>
+								</ul>
+								<span class="help-block" *ngIf="avaliables_services_add.length==0">
+									<span class="text-danger">No hay subcategorias agregadas aún</span>
+								</span>
+
+						  </div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<button class="btn btn-info" type="button" title="Usar mi dirección" (click)="getAddressHome()"><i class="fa fa-home"></i>&nbsp; Mi dirección</button>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+						  <div class="col-sm-12">
+							<div class="form-group">
+							  <label for="city_id-f">Ciudad*</label>
+							  <select for="city_id-f" [(formControl)]="city_id" class="form-control checking-field" (change)="onChangeCity($event.target.value)"  placeholder="Seleccione una ciudad">
+								  <!-- <option value="0" [ngValue]="0" #elem [id]="0">Seleccione un servicio</option> -->
+								  <option *ngFor="let RT of cities" [ngValue]="RT.id" #elem [id]="RT.id">{{RT.name}}</option>
+							  </select>
+							</div>
+						  </div>
+						</div>
+						<div class="row">
+						  <div class="col-sm-12">
+							<div class="form-group">
+								<div *ngIf="communes">
+							  		<label for="commune-f">Comuna*</label>
+									<select for="commune-f" [(formControl)]="commune_id" class="form-control checking-field" placeholder="Escoga su comuna">
+										<option *ngFor="let commune of communes" [ngValue]="commune.id" #elem [id]="commune.id">{{commune.name}}</option>
+									</select>
+									<span class="help-block" *ngIf="form.get('commune_id').touched">
+										<span class="text-danger" *ngIf="form.get('commune_id').hasError('required')">Este campo es requerido</span>
+									</span>
+							  </div>
+							</div>
+						  </div>
+						</div>
+						<div class="row">
+						  <div class="col-sm-12">
+							  <div class="form-group">
+								<label for="address_name-f">Calle*</label>
+								<input id="address_name-f" [formControl]="address_name"  class="form-control checking-field" type="text">
+								<span class="help-block" *ngIf="form.get('address_name').touched">
+									<span class="text-danger" *ngIf="form.get('address_name').hasError('required')">Este campo es requerido</span>
+									<span class="text-danger" *ngIf="form.get('address_name').hasError('minlength')">Se requiere un mínimo de 1 digito</span>
+								</span>
+							</div>
+						  </div>
+						</div>
+
+						<div class="row">
+						  <div class="col-sm-12">
+							  <div class="form-group">
+								<label for="address_number-f">Número*</label>
+								<input id="address_number-f" [formControl]="address_number" class="form-control checking-field" type="number">
+								<span class="help-block" *ngIf="form.get('address_number').touched">
+									<span class="text-danger" *ngIf="form.get('address_number').hasError('required')">Este campo es requerido</span>
+									<span class="text-danger" *ngIf="form.get('address_number').hasError('minlength')">Se requiere un mínimo de 1 digito</span>
+								</span>
+							</div>
+						  </div>
+						</div>
+
+						<div class="row">
+						  <div class="col-sm-12">
+							  <div class="form-group">
+								<label for="address_complement-f">Oficina / Depto. / Otro</label>
+								<input id="address_complement-f" [formControl]="address_complement" class="form-control checking-field" type="text">
+							</div>
+						  </div>
+						</div>
+						<hr>
+
+						<div class="row">
+						  <div class="col-sm-12">
+							<div class="form-group">
+							  <label for="start_time_schedule_requested-f">Seleccione el día*</label>
+								<div class="input-group">
+								    <input id="start_time_schedule_requested-f" [formControl]="start_time_schedule_requested"  class="form-control checking-field" type="date">
+								    <div class="input-group-addon"><i class="fa fa-calendar" onClick="document.getElementById('start_time_schedule_requested-f').click()"></i></div>
+							  </div>
+							  <span class="help-block" *ngIf="form.get('start_time_schedule_requested').touched">
+								<span class="text-danger" *ngIf="form.get('start_time_schedule_requested').hasError('required')">Este campo es requerido</span>
+							  </span>
+							</div>
+						  </div>
+						</div>
+						<div class="row">
+						  <div class="col-sm-12">
+							<div class="form-group">
+							  <label for="hora_id-f">Seleccione una hora*</label>
+							  <select for="hora_id-f" [formControl]="hora_id" class="form-control checking-field">
+								  <!-- <option value="0" [ngValue]="" #elem [id]="">Seleccione una hora</option> -->
+								  <option *ngFor="let RT of horas" value="{{RT.id}}" [ngValue]="RT.id" #elem [id]="RT.id">{{RT.name}}</option>
+							  </select>
+							  <span class="help-block" *ngIf="form.get('hora_id').touched">
+									<span class="text-danger" *ngIf="form.get('hora_id').hasError('required')">Este campo es requerido</span>
+								</span>
+							</div>
+						  </div>
+						</div>
+
+						<div class="row">
+						  <div class="col-sm-12 text-xs-center">
+								<div *ngIf="avaliables_services_add.length!=0">
+									<button [disabled]="!form.valid" class="btn btn-warning" type="submit">Continuar</button>
+								</div>
+								<div *ngIf="avaliables_services_add.length==0">
+									<button [disabled]="true" class="btn btn-warning" type="submit">Continuar</button>
+								</div>
+						  </div>
+						</div>
+					</form>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<style type="text/css">
+	ul.list li{
+		min-height: 25px;
+	}
+</style>
+
+<button class="btn btn-danger" id="modal_success_general" data-target="#success-modal-general" data-toggle="modal" type="button"  [hidden]="true">.</button>
+<div aria-labelledby="modal-success-label" class="modal fade" id="success-modal-general" role="dialog" style="display: none;" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header state modal-success">
+				<button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="goMiGaraje()"><span aria-hidden="true">×</span></button>
+				<h4 class="modal-title" id="modal-success-label"><i class="fa fa-check"></i><span id="modal_title_success">{{modal_title_success}}</span></h4>
+			</div>
+			<div class="modal-body" id="modal_body_success">{{modal_body_success}}</div>
+			<div class="modal-footer">
+				<button class="btn btn-default" data-dismiss="modal" type="button">Aceptar</button>
+			</div>
+		</div>
+	</div>
+</div>

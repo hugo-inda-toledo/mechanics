@@ -1,0 +1,97 @@
+# CakePHP 3
+
+#dev/tmp/*
+#dev/logs/*
+#dev/tmp/cache/models/*
+#!dev/tmp/cache/models/empty
+#dev/tmp/cache/persistent/*
+#!dev/tmp/cache/persistent/empty
+#dev/tmp/cache/views/*
+#!dev/tmp/cache/views/empty
+
+#dev/webroot/files/*
+#dev/webroot/css/*
+#!dev/webroot/css/empty
+#!dev/webroot/files/empty
+#dev/webroot/img/files/*
+#!dev/webroot/img/files/empty
+dev/webroot/img/profiles_img/*
+!dev/webroot/img/profiles_img/empty
+dev/webroot/files/temp/*
+!dev/webroot/files/temp/empty
+
+dev/apps/webroot/images/*
+dev/apps/webroot/files/*
+!dev/apps/webroot/images/customerRating/*
+!dev/apps/webroot/images/bonos
+!dev/apps/webroot/images/members/default.png
+/dev/apps/vendor/*
+/dev/apps/config/app.php
+/dev/apps/tmp/*
+/dev/apps/logs/*
+/dev/apps/
+/dev/apps/config/Migrations/schema-dump-default.lock
+
+
+##########################
+# Vagrant                #
+##########################
+#/vm/config.yaml
+#/vm/.vagrant/machines/default/virtualbox/*
+#!/vm/.vagrant/machines/default/virtualbox/empty
+#!/vm/.vagrant/machines/default/virtualbox/.gitkeep
+#/vm/tmp/*
+
+# ignore everything
+/vm/*
+
+# but not these files
+!/vm/cookbooks
+!/vm/files
+!/vm/.gitignore
+!/vm/.ruby-version
+!/vm/.travis.yml
+!/vm/Gemfile
+!/vm/Gemfile.lock
+!/vm/README.markdown
+!/vm/Vagrantfile
+!/dev/apps/
+!/vm/config.yaml.default
+
+
+# Chef
+
+
+# MAC
+
+.DS_Store
+
+
+# Windows
+
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+#sass cache files
+
+dev/webroot/sass/.sass-cache/
+database/respaldo produccion 9-11-2016.sql
+
+
+
+##########################
+# Frontend               #
+##########################
+
+frontend/node_modules/*
+frontend/dist/*
+frontend/src/**/*.js
+frontend/src/**/*.map
+frontend/src/app/app.server.config.ts
+frontend/npm-debug.log

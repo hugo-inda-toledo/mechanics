@@ -1,0 +1,19 @@
+.badge {
+ display: inline-block;
+ background: #00C853;
+ float: right;
+ padding: 7px;
+ border-radius: 50px;
+ margin: 10px;
+}
+
+/* Fix page right */
+.content-wrapper{
+  margin-top: -17px;
+  padding-top: 30px;
+}
+
+/* fix footer */
+.main-footer > p{
+  margin: 0;
+}

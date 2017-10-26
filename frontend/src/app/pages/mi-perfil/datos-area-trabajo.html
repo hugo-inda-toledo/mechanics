@@ -1,0 +1,46 @@
+<div widget class="card" *ngIf="user">
+    <div class="card-header">
+        <span>Área de Trabajo</span>
+        <span>
+          <button [hidden]="canEdit" [disabled]="!form.valid" type="button" class="btn btn-blue btn-less-rounded btn-s" (click)="onSubmit(form.value)">Guardar</button>
+        </span>
+        <div class="widget-controls">
+            <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+            <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>
+            <a data-widgster="fullscreen" href="#" class="transition"><i class="glyphicon glyphicon-resize-full"></i></a>
+            <a data-widgster="restore" href="#" class="transition"><i class="glyphicon glyphicon-resize-small"></i></a>
+            <a  class="transition"><i (click)="disableInputs()" class="glyphicon glyphicon-edit"></i></a>
+        </div>
+    </div>
+    <div class="card-block widget-body">
+      <form (ngSubmit)="onSubmit(form.value)" class="text-xs-left">
+
+        <div class="form-group" *ngIf="cities">
+            <label for="city-f">Ciudad*</label>
+            <select for="city-f" [(formControl)]="city_id" class="form-control checking-field" (change)="onChangeCity($event.target.value)" placeholder="Escoga su ciudad">
+                <option *ngFor="let city of cities" [ngValue]="city.id" #elem [id]="city.id">{{city.name}}</option>
+            </select>
+            <span class="help-block" *ngIf="form.get('city_id').touched">
+                <span class="text-danger" *ngIf="form.get('city_id').hasError('required')">Este campo es requerido</span>
+            </span>
+        </div>
+
+        <div class="form-group" *ngIf="communes">
+            <label for="commune-f">Comuna*</label>
+            <select multiple for="commune-f" [(formControl)]="commune_id" class="form-control checking-field" placeholder="Escoga su comuna">
+                <option *ngFor="let commune of communes" [ngValue]="commune.id" #elem [id]="commune.id">{{commune.name}}</option>
+            </select>
+            <span class="help-block" *ngIf="form.get('commune_id').touched">
+                <span class="text-danger" *ngIf="form.get('commune_id').hasError('required')">Este campo es requerido</span>
+            </span>
+        </div>
+
+        <!--<div class="form-group col-xl-4 col-md-6 col-xs-10 offset-xl-4 offset-md-3 offset-xs-1" [hidden]="canEdit">
+            <button [disabled]="!form.valid" class="btn btn-warning btn-block" type="submit">Guardar</button>
+        </div>-->
+
+      </form>
+    </div>
+
+    <ng2-toasty [position]="'top-right'"></ng2-toasty>
+</div>

@@ -1,0 +1,114 @@
+<div class="row">
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 bottom-15">
+        <div widget class="card">
+            <div class="card-header">
+                <span>Registro de auto</span>
+                <div class="widget-controls">
+                    <a data-widgster="fullscreen" href="#" class="transition"><i class="glyphicon glyphicon-resize-full"></i></a>
+                    <a data-widgster="restore" href="#" class="transition"><i class="glyphicon glyphicon-resize-small"></i></a>
+                </div>
+            </div>
+            <div class="card-block widget-body">
+              <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="text-xs-left">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group" *ngIf="carbrands">
+                        <label for="car_brand_id-f">Marca</label>
+                        <select for="car_brand_id-f" [(formControl)]="car_brand_id" class="form-control checking-field" (change)="onChangeCarBrands($event.target.value)"  placeholder="Seleccione una marca">
+                          <option *ngFor="let marca of carbrands" [ngValue]="marca.id" #elem [id]="marca.id">{{marca.brand_name}}</option>
+                        </select>
+                        <span class="help-block" *ngIf="form.get('car_brand_id').touched">
+                            <span class="text-danger" *ngIf="form.get('car_brand_id').hasError('required')">Este campo es requerido</span>
+                        </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                        <div *ngIf="carmodels">
+                            <label for="car_model_id-f">Módelo</label>
+                            <select for="car_model_id-f" [(formControl)]="car_model_id" class="form-control checking-field" placeholder="Escoga un modelo">
+                              <option *ngFor="let modelo of carmodels" [ngValue]="modelo.id" #elem [id]="modelo.id">{{modelo.model_name}}</option>
+                            </select>
+                            <span class="help-block" *ngIf="form.get('car_model_id').touched">
+                              <span class="text-danger" *ngIf="form.get('car_model_id').hasError('required')">Este campo es requerido</span>
+                            </span>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4">
+                    <div class="form-group">
+                        <label for="year-f">Año</label>
+                        <input id="year-f" [formControl]="year" class="form-control checking-field" type="number">
+                        <span class="help-block" *ngIf="form.get('year').touched">
+                            <span class="text-danger" *ngIf="form.get('year').hasError('required')">Este campo es requerido</span>
+                            <span class="text-danger" *ngIf="form.get('year').hasError('minlength')">Se requiere un mínimo de 4 digitos</span>
+                        </span>
+                        </div>
+                    </div>
+                    <div class="col-xs-8">
+                      <div class="form-group">
+                        <label for="patent-f">Patente</label>
+                        <input id="patent-f" [formControl]="patent" class="form-control checking-field" type="text">
+                        <span class="help-block" *ngIf="form.get('patent').touched">
+                            <span class="text-danger" *ngIf="form.get('patent').hasError('required')">Este campo es requerido</span>
+                            <span class="text-danger" *ngIf="form.get('patent').hasError('minlength')">Se requiere un mínimo de 6 caracteres</span>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12">
+                      <div class="form-group">
+                        <label for="mileage-f">Kilometraje</label>
+                        <input id="mileage-f" [formControl]="mileage" class="form-control checking-field" type="number">
+                        <span class="help-block" *ngIf="form.get('mileage').touched">
+                            <span class="text-danger" *ngIf="form.get('mileage').hasError('required')">Este campo es requerido</span>
+                            <span class="text-danger" *ngIf="form.get('mileage').hasError('minlength')">Se requiere un mínimo de 1 digito</span>
+                        </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12">
+                      <div class="form-group">
+                        <label for="observations-f">Observaciones</label>
+                        <textarea id="observations-f" [formControl]="observations" class="form-control"></textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 text-xs-center">
+                    <button [disabled]="!form.valid" class="btn btn-blue btn-less-rounded" type="submit">Agregar</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<button class="btn btn-danger" id="modal_success_general" data-target="#success-modal-general" data-toggle="modal" type="button"  [hidden]="true">.</button>
+<div aria-labelledby="modal-success-label" class="modal fade" id="success-modal-general" role="dialog" style="display: none;" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header state modal-success">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="goMiGaraje()"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="modal-success-label"><i class="fa fa-check"></i><span id="modal_title_success">{{modal_title_success}}</span></h4>
+            </div>
+            <div class="modal-body" id="modal_body_success">{{modal_body_success}}</div>
+            <div class="modal-footer">
+                <button class="btn btn-blue btn-less-rounded" data-dismiss="modal" type="button" (click)="goMiGaraje()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>

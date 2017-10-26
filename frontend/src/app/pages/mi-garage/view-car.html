@@ -1,0 +1,53 @@
+<div>
+  <div widget class="card" *ngIf="car">
+      <div class="card-header">
+          <span>Historial de atenciones</span>
+          <div class="widget-controls">
+              <a data-widgster="fullscreen" href="#" class="transition"><i class="glyphicon glyphicon-resize-full"></i></a>
+              <a data-widgster="restore" href="#" class="transition"><i class="glyphicon glyphicon-resize-small"></i></a>
+          </div>
+      </div>
+      <div class="card-block widget-body">
+         <h4>Vehiculo: {{ car.patent }} {{ car.car_model.model_name }} </h4>
+         <div class="card card-outline-primary pt-1 px-1" *ngFor="let request of car.requests">
+          <h5><span class="tag tag-primary">{{ request.created| date: 'dd/MM/yyyy' }}</span>
+            <a href="{{http_reports}}/health/{{car.id}}/{{request.id}}/{{token_url}}"><i class="fa fa-file-pdf-o pull-right" title="Informe de Salud"></i></a>
+            <a href="{{http_reports}}/services/{{car.id}}/{{request.id}}/{{token_url}}"><i class="fa fa-file-pdf-o pull-right" title="Informe de Servicio"></i></a>
+            <a (click)=try(request.id)><i class="fa fa-file-pdf-o pull-right" title="Informe de Servicio"></i></a>
+          </h5>
+           <p class="mb-0" *ngIf="request.mechanic">Mecánico: {{request.mechanic.full_name}}</p>
+           <p class="mb-0"><b>Motivo:</b> <span *ngIf="request.available_services">
+             <span *ngFor="let aas of request.available_services">{{aas.name}}</span>
+           </span></p>
+           <p class="mb-0"><b>Descripción:</b> <span *ngIf="request.available_services">
+             <span *ngFor="let aas of request.available_services">{{aas.description}}</span>
+           </span></p>
+           <p class="mb-1"><b>Estado:</b> {{estados[request.status]}}</p>
+         </div>
+      </div>
+  </div>
+
+</div>
+
+<button class="btn btn-danger" id="modal_success_general" data-target="#pdf-modal" data-toggle="modal" type="button"  [hidden]="true">.</button>
+<div aria-labelledby="modal-success-label" class="modal fade" id="pdf-modal" role="dialog" style="display: none;" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header state modal-success">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body" id="modal_body_success" *ngIf="dataModal && dataModal.src">
+              <pdf-viewer [src]="dataModal.src"
+                          [show-all]="true"
+                          [original-size]="false"
+                          [zoom]="0.5"
+                          style="display: block;"
+                          (after-load-complete)="callBackFn($event)"
+             ></pdf-viewer>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-blue btn-less-rounded" data-dismiss="modal" type="button">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

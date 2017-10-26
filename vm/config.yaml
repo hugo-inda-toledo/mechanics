@@ -1,0 +1,11 @@
+---
+configs:
+    use: 'office'
+    office:
+        public_ip: '192.168.XXX.XXX'
+        memory: 2048
+        cpus: 2
+    home:
+        public_ip: '192.168.70.60'
+        memory: 2048
+        cpus: 2

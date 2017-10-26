@@ -1,0 +1,123 @@
+<div class="row" *ngIf="request">
+  <div class="card">
+    <div class="card-header">
+      <span>Solicitudes Activas</span>
+    </div>
+    <div class="card-block">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 bottom-15">
+            <div class="card">
+                <div class="card-header">
+                  <div class="row">
+                    <div class="col-xs-8">
+                      <span class="card-title">{{request.car.patent}} | {{request.car.car_brand.brand_name}} {{request.car.car_model.model_name}}</span>
+                    </div>
+                  </div>
+
+                    <span class="tag tag-warning">{{ estados[request.status] }}</span>
+                </div>
+                <div class="card-block">
+                  <table class="table table-striped">
+                    <tr>
+                      <td>Fecha</td>
+                      <td>{{ request.start_time_schedule_requested | date :'dd/MM/yyyy' }}</td>
+                    </tr>
+                    <tr>
+                      <td>Hora</td>
+                      <td>{{ request.start_time_schedule_requested | date :'HH:mm' }}</td>
+                    </tr>
+                    <tr *ngIf="request.mechanic">
+                      <td>Mecánico</td>
+                      <td>{{ request.mechanic.full_name }}</td>
+                    </tr>
+                    <tr>
+                      <td>Estado</td>
+                      <td>{{estados[request.status]}}</td>
+                    </tr>
+                    <tr *ngIf="request.available_services">
+                      <td>Servicios Aprobados</td>
+                      <td>
+                        <ul>
+                          <ng-container *ngIf="request.available_services">
+                            <ng-container *ngFor="let AV of request.available_services">
+                              <li *ngIf="AV._joinData.active"> {{ AV.name}}  {{AV.total_price | currency:'CLP':true:'1.0-0' }}</li>
+                            </ng-container>
+                          </ng-container>
+
+                          <ng-container *ngIf="request.requests_mechanic_mods">
+                            <ng-container *ngFor="let AVM of request.requests_mechanic_mods">
+                              <ng-container *ngIf="AVM.status === 4 || AVM.status === 2">
+                                <ng-container *ngFor="let AVMItem of AVM.available_services">
+                                  <li *ngIf="AVMItem._joinData.active"> {{ AVMItem.name}} {{ AVM.status=== 2?  '(POR PAGAR)' : ''}} {{AVMItem.total_price | currency:'CLP':true:'1.0-0' }}</li>
+                                </ng-container>
+                              </ng-container>
+                            </ng-container>
+                          </ng-container>
+                        </ul>
+
+                      </td>
+
+                    </tr>
+                    <tr>
+                      <td>Total Aprobado</td>
+                      <td>{{ request.total_price | currency:'CLP':true:'1.0-0' }}</td>
+                    </tr>
+                    <tr>
+                      <td>Servicios Por Aprobar</td>
+                      <td>
+                        <ul *ngIf="request.requests_mechanic_mods">
+                          <ng-container *ngFor="let AVM of request.requests_mechanic_mods">
+                            <ng-container *ngIf="AVM.status === 1">
+                              <ng-container *ngFor="let AVMItem of AVM.available_services">
+                                <li *ngIf="AVMItem._joinData.active"> {{ AVMItem.name}} {{AVMItem.total_price | currency:'CLP':true:'1.0-0' }}</li>
+                              </ng-container>
+                            </ng-container>
+                          </ng-container>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Total A Pagar Pendiente</td>
+                      <td>{{ sumPricePendientes | currency:'CLP':true:'1.0-0' }}</td>
+                    </tr>
+
+
+                  </table>
+
+                  <div class="col-xl-4 col-md-6 col-xs-10 offset-xl-4 offset-md-3 offset-xs-1">
+                    <button  class="btn btn-blue btn-less-rounded btn-block" (click)="approveChanges()" >Aprobar</button>
+                  </div>
+
+                  <hr>
+
+                  <div class="col-xl-4 col-md-6 col-xs-10 offset-xl-4 offset-md-3 offset-xs-1">
+                    <button  class="btn btn-danger btn-less-rounded btn-block" (click)="cancelChanges()">Cancelar</button>
+                  </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#view-modal" id="openModalButton" [hidden]="true">Info</button>
+
+  <div class="modal fade" id="view-modal" tabindex="-1" role="dialog" aria-labelledby="modal-info-label">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header state modal-info">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+              <h4 class="modal-title" id="modal-info-label"><i class="fa fa-info"></i>{{ modalInfo.title }}</h4>
+          </div>
+          <div class="modal-body">
+               {{ modalInfo.body }}
+            <div class="modal-footer">
+                <button type="button" class="btn btn-blue btn-less-rounded btn-block" data-dismiss="modal" (click)="modalInfo.fnClick()">ACEPTAR</button>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>

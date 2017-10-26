@@ -1,0 +1,125 @@
+<div class="row">
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 bottom-15">
+		<div widget class="card">
+			<div class="card-header">
+				<span>Diagnóstico</span>
+				<div class="widget-controls">
+					<a data-widgster="fullscreen" href="#" class="transition"><i class="glyphicon glyphicon-resize-full"></i></a>
+					<a data-widgster="restore" href="#" class="transition"><i class="glyphicon glyphicon-resize-small"></i></a>
+				</div>
+			</div>
+			<div class="card-block widget-body">
+				<div>
+					<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="text-xs-left">
+					  <div class="row">
+						  <div class="col-sm-12">
+							<div class="form-group">
+							  <label for="helps_where_id-f">¿Dónde está el problema?</label>
+							  <select for="helps_where_id-f" [(formControl)]="helps_where_id" class="form-control checking-field" (change)="onChangeWheres($event.target.value)">
+								  <option *ngFor="let item of where_list" value="{{item.id}}" [ngValue]="item.id" #elem [id]="item.id">{{item.where_name}}</option>
+							  </select>
+							  <span class="help-block" *ngIf="form.get('helps_where_id').touched">
+								  <span class="text-danger" *ngIf="form.get('helps_where_id').hasError('required')">Este campo es requerido</span>
+							  </span>
+							</div>
+						  </div>
+						</div>
+
+						<div class="row">
+						  <div class="col-sm-12">
+							<div class="form-group">
+							  <label for="helps_whatsup_id-f">¿Qué pasa?</label>
+							  <select for="helps_whatsup_id-f" [(formControl)]="helps_whatsup_id" class="form-control checking-field" (change)="onChangeWhatsups($event.target.value)">
+								  <option  *ngFor="let item of whatsup_list" value="{{item.id}}" [ngValue]="item.id" #elem [id]="item.id">{{item.whatsup_name}}</option>
+							  </select>
+							  <span class="help-block" *ngIf="form.get('helps_whatsup_id').touched">
+								  <span class="text-danger" *ngIf="form.get('helps_whatsup_id').hasError('required')">Este campo es requerido</span>
+							  </span>
+							</div>
+						  </div>
+						</div>
+
+						<div class="row">
+						  <div class="col-sm-12">
+							<div class="form-group">
+							  <label for="helps_when_id-f">¿Cuándo pasa?</label>
+							  <select for="helps_when_id-f" [(formControl)]="helps_when_id" class="form-control checking-field" (change)="onChangeWhens($event.target.value)">
+								  <option  *ngFor="let item of when_list" value="{{item.id}}" [ngValue]="item.id" #elem [id]="item.id">{{item.when_name}}</option>
+							  </select>
+							  <span class="help-block" *ngIf="form.get('helps_when_id').touched">
+								  <span class="text-danger" *ngIf="form.get('helps_when_id').hasError('required')">Este campo es requerido</span>
+							  </span>
+							</div>
+						  </div>
+						</div>
+
+						<div class="row">
+						  <div class="col-sm-12">
+							<div class="form-group">
+							  <label for="helps_situation_id-f">¿En qué situación pasa?</label>
+							  <select for="helps_situation_id-f" [(formControl)]="helps_situation_id" class="form-control checking-field" (change)="onChangeSituations($event.target.value)">
+								  <option *ngFor="let item of situation_list" value="{{item.id}}" [ngValue]="item.id" #elem [id]="item.id">{{item.situation_name}}</option>
+							  </select>
+							  <span class="help-block" *ngIf="form.get('helps_situation_id').touched">
+								  <span class="text-danger" *ngIf="form.get('helps_situation_id').hasError('required')">Este campo es requerido</span>
+							  </span>
+							</div>
+						  </div>
+						</div>
+
+						<div class="row">
+						  <div class="col-sm-12">
+							<div class="form-group">
+							  <label for="helps_how_often_id-f">¿Cada cuánto tiempo pasa?</label>
+							  <select for="helps_how_often_id-f" [(formControl)]="helps_how_often_id" class="form-control checking-field">
+								  <option *ngFor="let item of how_often_list" value="{{item.id}}" [ngValue]="item.id" #elem [id]="item.id">{{item.how_often_name}}</option>
+							  </select>
+							  <span class="help-block" *ngIf="form.get('helps_how_often_id').touched">
+								  <span class="text-danger" *ngIf="form.get('helps_how_often_id').hasError('required')">Este campo es requerido</span>
+							  </span>
+							</div>
+						  </div>
+						</div>
+
+						<div class="row">
+						  <div class="col-sm-12 text-xs-center">
+								<button [disabled]="!form.valid" class="btn btn-warning" type="submit">Continuar</button>
+								<button  class="btn btn-warning mr-1" type="button" data-target="#success-modal-general" data-toggle="modal">Ayuda</button>&nbsp;
+						  </div>
+						</div>
+					</form>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div aria-labelledby="modal-default-label" class="modal fade" id="success-modal-general" role="dialog" style="display: none;" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content mx-3">
+			<div class="modal-header state modal-default">
+				<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+				<h4 class="modal-title text-xs-center" id="modal-success-label"><span id="modal_title_success">Solicitar ayuda</span></h4>
+			</div>
+			<div class="modal-body text-xs-center" id="modal_body_success">
+
+						<div class="form-group">
+						  <label for="asituation_id-f">Motivo</label>
+						  <select for="asituation_id-f" class="form-control checking-field">
+								<option value="">no se nada</option>
+								<option value="">no entiendo nada</option>
+								<option value="">solicitar un diagnostico o contacto</option>
+								<option value="">solicitar visita</option>
+						  </select>
+						</div>
+
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-default" data-dismiss="modal" type="button">Cancelar</button>
+				<button class="btn btn-warning" data-dismiss="modal" type="button">Aceptar</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,40 @@
+<div class="row current-request" *ngIf="request != null">
+  <div class="card">
+    <div class="card-header">
+      <span>Trabajo Actual</span>
+    </div>
+    <div class="card-block">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 bottom-15">
+            <div class="card">
+                <div class="card-header">
+                  <span>ID #{{request.id}}</span>
+                  <div class="pull-right"><span class="tag tag-warning">{{getStatus[request.status]}}</span></div>
+                </div>
+                <div class="card-block">
+                  <table class="table table-striped">
+                    <tr>
+                      <td>{{request.client.full_name}}</td>
+                      <td>Juanito Peréz</td>
+                    </tr>
+                    <tr>
+                      <td>Vehículo</td>
+                      <td>{{request.car.patent}}</td>
+                    </tr>
+                    <tr>
+                      <td>Fecha</td>
+                      <td>{{request.start_time_schedule_requested | date:'dd-MM-y' }}</td>
+                    </tr>
+                    <tr>
+                      <td>Hora</td>
+                      <td>{{request.start_time_schedule_requested | date:'HH:mm' }}</td>
+                    </tr>
+                  </table>
+
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

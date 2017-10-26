@@ -1,0 +1,25 @@
+<div class="confirm-register-container">
+    <div class="col-xl-4 col-md-6 col-xs-10 offset-xl-4 offset-md-3 offset-xs-1">
+        <div class="card">
+            <div class="card-block text-xs-center">
+                <h2 class="card-title text-white">Confirmar Registro</h2>
+
+
+                <div class="alert alert-danger" role="alert" *ngIf="!loading && messageError">
+                    <strong>Error: </strong> {{messageError}}
+                </div>
+
+                <div *ngIf="!loading && messageSuccess">
+                  <div class="alert alert-success" role="alert">
+                      {{messageSuccess}}
+                  </div>
+
+                  <div class="form-group">
+                      <button class="btn btn-gray btn-less-rounded" type="submit" (click)="goLogin()">Ir a Login</button>
+                  </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

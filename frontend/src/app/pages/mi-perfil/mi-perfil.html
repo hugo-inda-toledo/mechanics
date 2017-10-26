@@ -1,0 +1,110 @@
+<div *ngIf="user">
+  <div class="row">
+   <div class="card text-xs-center user-info-box">
+     <div class="card-block">
+       <div class="row">
+         <div class="col-xs-4" *ngIf="user.photo_url">
+           <img class="rounded-circle" [src]="urlServer+'/'+user.photo_url" alt="Foto Perfil">
+         </div>
+         <div class="col-xs-4" *ngIf="!user.photo_url">
+           <img class="rounded-circle" src="../assets/img/users/default-user-image.png" alt="Foto Perfil">
+         </div>
+         <div class="col-xs-8">
+           <h6 class="text-capitalize">{{ user.name + ' ' + user.last_name }}</h6>
+           <h6 class="text-lowercase">{{ user.email }}</h6>
+           <!--<h6 class="text-uppercase">{{ userRoles[user.role_id].name }}</h6>-->
+           <!--<h6 >Miembro desde: {{ user.created | date: 'dd/MM/yyyy' }}</h6>-->
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+
+ <div class="row" *ngIf="user && userRoles[user.role_id].role === 'mechanic'">
+   <div widget class="card">
+       <div class="card-header">
+           <span>Foto de Perfil</span>
+           <div class="widget-controls">
+               <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+               <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>
+               <a data-widgster="fullscreen" href="#" class="transition"><i class="glyphicon glyphicon-resize-full"></i></a>
+               <a data-widgster="restore" href="#" class="transition"><i class="glyphicon glyphicon-resize-small"></i></a>
+           </div>
+       </div>
+       <div class="card-block widget-body">
+
+         <div class="form-group">
+           <input type="file" class="form-control" name="single" ng2FileSelect [uploader]="uploader" />
+           <span>La imagen deber tener un formato .jpg, .jpeg o .png, y no debe exceder 1mb.</span>
+         </div>
+
+         <div *ngIf="showErrors">
+           <div class="alert alert-danger" role="alert">
+               {{error}}
+           </div>
+         </div>
+
+         <button type="button" class="btn btn-blue btn-less-rounded btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+            Guardar
+          </button><br />
+       </div>
+   </div>
+ </div>
+
+
+ <!--Datos Personales-->
+ <div class="row" >
+   <datos-personales (userUpdated)="handleUserUpdated($event)" *ngIf="user&&cities" [user]="user" [cities]="cities"></datos-personales>
+ </div>
+ <!-- /Datos Personales-->
+
+ <!--Area Trabajo-->
+ <div class="row" *ngIf="user && userRoles[user.role_id].role === 'mechanic'">
+   <datos-area-trabajo (userUpdated)="handleUserUpdated($event)" *ngIf="user&&cities" [user]="user" [cities]="cities"></datos-area-trabajo>
+ </div>
+ <!-- /Area Trabajo-->
+
+ <!--Datos Habilidades-->
+ <div class="row" *ngIf="user && userRoles[user.role_id].role === 'mechanic'">
+   <datos-habilidades  [user]="user"></datos-habilidades>
+ </div>
+ <!-- /Datos Habilidades-->
+
+ <!--Datos Herramientas-->
+ <div class="row" *ngIf="user && userRoles[user.role_id].role === 'mechanic'">
+   <datos-herramientas  [user]="user"></datos-herramientas>
+ </div>
+ <!-- /Datos Herramientas-->
+
+ <!--Mis horarios-->
+ <div class="row" *ngIf="user && userRoles[user.role_id].role === 'mechanic'">
+   <div widget class="card">
+       <div class="card-header">
+           <span>Mis horarios</span>
+           <div class="widget-controls">
+               <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+               <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>
+               <a data-widgster="fullscreen" href="#" class="transition"><i class="glyphicon glyphicon-resize-full"></i></a>
+               <a data-widgster="restore" href="#" class="transition"><i class="glyphicon glyphicon-resize-small"></i></a>
+           </div>
+       </div>
+       <div class="card-block widget-body col-xl-4 col-md-6 col-xs-10 offset-xl-4 offset-md-3 offset-xs-1">
+         <button class="btn btn-blue btn-less-rounded btn-block" (click)="goTo('horarios')" type="submit">Ver mis horarios</button>
+       </div>
+   </div>
+ </div>
+ <!-- /Mis Horarios-->
+
+ <div class="row" >
+   <datos-contrasenia (userUpdated)="handleUserUpdated($event)" *ngIf="user" [user]="user"></datos-contrasenia>
+ </div>
+
+ <div class="row">
+   <div class="col-xl-4 col-md-6 col-xs-10 offset-xl-4 offset-md-3 offset-xs-1">
+     <button  class="btn btn-danger btn-less-rounded btn-block" (click)="logout()">Cerrar Sesión</button>
+   </div>
+   <br>
+ </div>
+
+ <ng2-toasty [position]="'top-right'"></ng2-toasty>
+</div>

@@ -1,0 +1,33 @@
+// Textos para cada pregunas
+.list-group{
+    .list-group-item{
+        .list-group-item-heading{
+            margin-top: 0.7rem;
+            margin-bottom: 0.7rem;
+            font-weight: 500;
+        }
+        .list-group-item-text{
+            margin-bottom: 1rem;
+        }
+    }
+}
+
+// Botones de acciones para formularios
+.btn-actions{
+    margin-top: 1rem;
+}
+
+// Comentario en reportes
+.report-comment{
+    margin-top: 1rem;
+}
+.report-help{
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+// Star rating
+.start-rating-intro{
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+}

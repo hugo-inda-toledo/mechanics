@@ -1,0 +1,112 @@
+<div widget class="card" *ngIf="user">
+    <div class="card-header">
+        <span>Datos personales</span>
+        <span>
+          <button [hidden]="canEdit" [disabled]="!form.valid" type="button" class="btn btn-blue btn-less-rounded btn-s" (click)="onSubmit(form.value)">Guardar</button>
+        </span>
+        <div class="widget-controls">
+            <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+            <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>
+            <a data-widgster="fullscreen" href="#" class="transition"><i class="glyphicon glyphicon-resize-full"></i></a>
+            <a data-widgster="restore" href="#" class="transition"><i class="glyphicon glyphicon-resize-small"></i></a>
+            <a  class="transition"><i (click)="disableInputs()" class="glyphicon glyphicon-edit"></i></a>
+        </div>
+    </div>
+    <div class="card-block widget-body">
+      <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="text-xs-left">
+          <div class="form-group">
+              <label for="nombre-f">Nombre*</label>
+              <input id="nombre-f" [formControl]="firstName" class="form-control checking-field" type="text">
+              <span class="help-block" *ngIf="form.get('firstName').touched">
+                  <span class="text-danger" *ngIf="form.get('firstName').hasError('required')">Este campo es requerido</span>
+                  <span class="text-danger" *ngIf="form.get('firstName').hasError('minlength')">Se requiere un mínimo de 3 caracteres</span>
+              </span>
+          </div>
+
+          <div class="form-group">
+              <label for="apellido-f">Apellido*</label>
+              <input id="apellido-f" [formControl]="last_name" class="form-control checking-field" type="text">
+              <span class="help-block" *ngIf="form.get('last_name').touched">
+                  <span class="text-danger" *ngIf="form.get('last_name').hasError('required')">Este campo es requerido</span>
+                  <span class="text-danger" *ngIf="form.get('last_name').hasError('minlength')">Se requiere un mínimo de 3 caracteres</span>
+              </span>
+          </div>
+
+          <div class="form-group">
+              <label for="apellido-f">Correo electrónico*</label>
+              <input class="form-control" type="text" value="{{user.email}}" [disabled]="true">
+          </div>
+
+          <div class="form-group" *ngIf="userRoles[user.role_id].role == 'mechanic'">
+            <label for="sex-f">Sexo</label>
+            <select for="sex-f" [(formControl)]="sex" class="form-control checking-field" value="Selecciona un género">
+                <option *ngFor="let gender of genders" [ngValue]="gender.id" #elem [id]="gender.id">{{gender.name}}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+              <label for="phone1-f">Número de télefono*</label>
+              <input for="phone1-f" [formControl]="phone1" class="form-control checking-field"  type="text">
+              <span class="help-block" *ngIf="form.get('phone1').touched">
+                  <span class="text-danger" *ngIf="form.get('phone1').hasError('required')">Este campo es requerido</span>
+              </span>
+          </div>
+
+          <div class="form-group" *ngIf="userRoles[user.role_id].role == 'mechanic'">
+              <label for="phone2-f">Número de télefono 2</label>
+              <input for="phone2-f" [formControl]="phone2" class="form-control checking-field"  type="text">
+          </div>
+
+          <div class="form-group">
+            <label for="city-f">Ciudad*</label>
+            <select for="city-f" [(formControl)]="city_id" class="form-control checking-field" (change)="onChangeCity($event.target.value)" placeholder="Escoga su ciudad">
+                <option *ngFor="let city of cities" [ngValue]="city.id" #elem [id]="city.id">{{city.name}}</option>
+            </select>
+            <span class="help-block" *ngIf="form.get('city_id').touched">
+                <span class="text-danger" *ngIf="form.get('city_id').hasError('required')">Este campo es requerido</span>
+            </span>
+          </div>
+
+          <div class="form-group">
+            <div *ngIf="communes">
+              <label for="commune-f">Comuna*</label>
+              <select for="commune-f" [(formControl)]="commune_id" class="form-control checking-field" placeholder="Escoga su comuna">
+                  <option *ngFor="let commune of communes" [ngValue]="commune.id" #elem [id]="commune.id">{{commune.name}}</option>
+              </select>
+              <span class="help-block" *ngIf="form.get('commune_id').touched">
+                  <span class="text-danger" *ngIf="form.get('commune_id').hasError('required')">Este campo es requerido</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+              <label for="address_name-f">Dirección*</label>
+              <input for="address_name-f" [formControl]="address_name" class="form-control checking-field"  type="text">
+              <span class="help-block" *ngIf="form.get('address_name').touched">
+                  <span class="text-danger" *ngIf="form.get('address_name').hasError('required')">Este campo es requerido</span>
+              </span>
+          </div>
+
+          <div class="form-group">
+              <label for="address_number-f">Numeración*</label>
+              <input for="address_number-f" [formControl]="address_number" class="form-control checking-field"  type="text">
+              <span class="help-block" *ngIf="form.get('address_number').touched">
+                  <span class="text-danger" *ngIf="form.get('address_number').hasError('required')">Este campo es requerido</span>
+              </span>
+          </div>
+
+          <div class="form-group">
+              <label for="address_complement-f">Oficina / Depto / Otro</label>
+              <input for="address_complement-f" [formControl]="address_complement" class="form-control checking-field"  type="text">
+          </div>
+
+          <div class="alert alert-danger" role="alert" *ngIf="!loading && error">
+              <strong>Error: </strong> {{error}}
+          </div>
+
+          <!--<div class="form-group col-xl-4 col-md-6 col-xs-10 offset-xl-4 offset-md-3 offset-xs-1" [hidden]="canEdit">
+              <button [disabled]="!form.valid" class="btn btn-warning btn-block" type="submit">Guardar</button>
+          </div>-->
+      </form>
+    </div>
+</div>

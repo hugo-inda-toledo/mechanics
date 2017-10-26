@@ -1,0 +1,7 @@
+/vendor/*
+/config/appcfg.php
+/tmp/*
+/logs/*
+!/logs/transbank/.gitkeep
+composer.lock
+/composer.lock

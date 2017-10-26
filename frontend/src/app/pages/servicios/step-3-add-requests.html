@@ -1,0 +1,95 @@
+<div class="row">
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 bottom-15">
+		<div widget class="card">
+			<div class="card-header">
+				<span>Datos factura</span>
+				<div class="widget-controls">
+					<a data-widgster="fullscreen" href="#" class="transition"><i class="glyphicon glyphicon-resize-full"></i></a>
+					<a data-widgster="restore" href="#" class="transition"><i class="glyphicon glyphicon-resize-small"></i></a>
+				</div>
+			</div>
+			<div class="card-block widget-body">
+			<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="text-xs-left">
+				<div class="row">
+				  <div class="col-sm-12">
+					<p> Por favor, ingrese los datos para generar factura </p>
+				  </div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label for="full_name-f">Nombre</label>
+							<input id="full_name-f" [formControl]="full_name"  class="form-control checking-field" type="text">
+							<span class="help-block" *ngIf="form.get('full_name').touched">
+								<span class="text-danger" *ngIf="form.get('full_name').hasError('required')">Este campo es requerido</span>
+								<span class="text-danger" *ngIf="form.get('full_name').hasError('minlength')">Se requiere un mínimo de 3 caracteres</span>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label for="address-f">Dirección</label>
+							<input id="address-f" [formControl]="address"  class="form-control checking-field" type="text">
+							<span class="help-block" *ngIf="form.get('address').touched">
+								<span class="text-danger" *ngIf="form.get('address').hasError('required')">Este campo es requerido</span>
+								<span class="text-danger" *ngIf="form.get('address').hasError('minlength')">Se requiere un mínimo de 5 caracteres</span>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label for="rut-f">RUT</label>
+							<input id="rut-f" [formControl]="rut"  class="form-control checking-field" type="text">
+							<span class="help-block" *ngIf="form.get('rut').touched">
+								<span class="text-danger" *ngIf="form.get('rut').hasError('required')">Este campo es requerido</span>
+								<span class="text-danger" *ngIf="form.get('rut').hasError('minlength')">Se requiere un mínimo de 10 digitos</span>
+								<span class="text-danger" *ngIf="form.get('rut').hasError('maxlength')">Se requiere un maxímo de 10 digitos</span>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label for="giro-f">Giro</label>
+							<input id="giro-f" [formControl]="giro"  class="form-control checking-field" type="text">
+							<span class="help-block" *ngIf="form.get('giro').touched">
+								<span class="text-danger" *ngIf="form.get('giro').hasError('required')">Este campo es requerido</span>
+							</span>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row">
+				  <div class="col-sm-12 text-xs-left">
+					<button [disabled]="!form.valid" class="btn btn-warning" type="submit">Reservar</button>
+				  </div>
+				</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<button class="btn btn-danger" id="modal_success_general" data-target="#success-modal-general" data-toggle="modal" type="button"  [hidden]="true">.</button>
+<div aria-labelledby="modal-success-label" class="modal fade" id="success-modal-general" role="dialog" style="display: none;" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header state modal-success">
+				<button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="goMiGaraje()"><span aria-hidden="true">×</span></button>
+				<h4 class="modal-title" id="modal-success-label"><i class="fa fa-check"></i><span id="modal_title_success">{{modal_title_success}}</span></h4>
+			</div>
+			<div class="modal-body" id="modal_body_success">{{modal_body_success}}</div>
+			<div class="modal-footer">
+				<button class="btn btn-default" data-dismiss="modal" type="button">Aceptar</button>
+			</div>
+		</div>
+	</div>
+</div>

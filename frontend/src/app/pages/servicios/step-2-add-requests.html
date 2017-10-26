@@ -1,0 +1,108 @@
+<div class="row">
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 bottom-15">
+		<div widget class="card">
+			<div class="card-header">
+				<span>Nueva Solicitud</span>
+				<div class="widget-controls">
+					<a data-widgster="fullscreen" href="#" class="transition"><i class="glyphicon glyphicon-resize-full"></i></a>
+					<a data-widgster="restore" href="#" class="transition"><i class="glyphicon glyphicon-resize-small"></i></a>
+				</div>
+			</div>
+			<div class="card-block widget-body" *ngIf="request">
+			<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="text-xs-left">
+				<div class="row">
+				  <div class="col-sm-12">
+					<div>
+						<p> Solicitud de servicio de: </p>
+            <ul>
+              <ng-container *ngIf="request.available_services">
+                <ng-container *ngFor="let AV of request.available_services">
+                  <li *ngIf="AV._joinData.active"> {{ AV.name}}  {{AV.total_price | currency:'CLP':true:'1.0-0' }}</li>
+                </ng-container>
+              </ng-container>
+
+              <ng-container *ngIf="request.requests_mechanic_mods">
+                <ng-container *ngFor="let AVM of request.requests_mechanic_mods">
+                  <ng-container *ngIf="AVM.status !== 3">
+                    <ng-container *ngFor="let AVMItem of AVM.available_services">
+                      <li *ngIf="AVMItem._joinData.active"> {{ AVMItem.name}}  {{  AVM.status !== 4 ?  '(PENDIENTE)' : ''}} {{AVMItem.total_price | currency:'CLP':true:'1.0-0' }}</li>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </ul>
+						<p>para el vehículo <b>{{request.car.car_brand.brand_name}} {{request.car.car_model.model_name}}</b> patente <b>{{request.car.patent}}</b>, el <b>{{request.start_time_schedule_requested| date: 'dd/MM/yyyy'}}</b> a las <b>{{request.start_time_schedule_requested| date: 'HH:mm'}}</b></p>
+					</div>
+				  </div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="form-group">
+						  <label for="requests_types-f">Seleccione un medio de pago*</label>
+						  <select for="requests_types-f" [(formControl)]="requests_types_id" class="form-control checking-field">
+							  <option *ngFor="let RT of paymentsMethods" value="{{RT.id}}" [ngValue]="RT.id" #elem [id]="RT.id" [selected]="RT.keyword == 'webpay'">{{RT.type_payment}}</option>
+						  </select>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<h6>Tipo de documento</h6>
+						<div class="form-group">
+							<div class="abc-radio abc-radio-primary">
+								<input id="tipo_documento_1" [(formControl)]="tipo_documento" type="radio" value="boleta" checked="checked">
+								<label for="tipo_documento_1">Boleta</label>
+							</div>
+							<div class="abc-radio abc-radio-primary">
+								<input id="tipo_documento_2" [(formControl)]="tipo_documento" type="radio" value="factura">
+								<label for="tipo_documento_2">Factura</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<h6>Monto total</h6>
+						<div class="form-group">
+                <label class="sr-only" for="total_price">Monto total</label>
+                <div class="input-group" *ngIf="request">
+                    <input class="form-control text-xs-right text-primary font-weight-bold" type="text" [(formControl)]="total_price" readonly="readonly">
+                    <div class="input-group-addon font-weight-bold">$</div>
+                </div>
+		         </div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						 <p>Si pagas con tarjeta de <b>CRÉDITO</b> esto es sólo una reserva de cupo. El cobro se realizará una vez prestado el servicio</p>
+					</div>
+				</div>
+
+				<div class="row">
+				  <div class="col-sm-12 text-xs-center">
+					<button [disabled]="!form.valid" class="btn btn-warning" type="submit">Reservar</button>
+				  </div>
+				</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<button class="btn btn-danger" id="modal_success_general" data-target="#success-modal-general" data-toggle="modal" type="button"  [hidden]="true">.</button>
+<div aria-labelledby="modal-success-label" class="modal fade" id="success-modal-general" role="dialog" style="display: none;" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header state modal-success">
+				<button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="goMiGaraje()"><span aria-hidden="true">×</span></button>
+				<h4 class="modal-title" id="modal-success-label"><i class="fa fa-check"></i><span id="modal_title_success">{{modal_title_success}}</span></h4>
+			</div>
+			<div class="modal-body" id="modal_body_success">{{modal_body_success}}</div>
+			<div class="modal-footer">
+				<button class="btn btn-default" data-dismiss="modal" type="button">Aceptar</button>
+			</div>
+		</div>
+	</div>
+</div>

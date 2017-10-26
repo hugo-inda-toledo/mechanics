@@ -1,0 +1,25 @@
+@import "../../theme/styles/variables";
+@import "../../../../node_modules/bootstrap/scss/_variables";
+@import "../../../../node_modules/bootstrap/scss/mixins";
+@import "../../../../node_modules/metrojs/release/MetroJs.Full/MetroJs";
+
+
+.check-green{
+  color: rgb(123, 179, 66);
+  font-size: larger;
+}
+
+.cell-check{
+  text-align: center !important;
+  display: table-cell !important;
+  vertical-align: middle !important;
+}
+
+
+thead tr th:first-child,
+tbody tr td:first-child {
+  width: 8em;
+  min-width: 8em;
+  max-width: 8em;
+  word-break: break-all;
+}

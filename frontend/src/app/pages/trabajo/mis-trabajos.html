@@ -1,0 +1,219 @@
+<!-- Current work -->
+<div class="row current-request" *ngIf="current_request">
+  <div class="card">
+    <div class="card-header">
+      <span>Trabajo Actual</span>
+    </div>
+    <div class="card-block">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 bottom-15">
+            <div class="card">
+
+                <div class="card-header">
+                  <div class="row">
+                    <div class="col-xs-8"><span class="card-title">ID # {{current_request.id}}</span></div>
+                    <div class="col-xs-4">
+                      <div class="text-xs-right">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="fa fa-wrench"></span></button>
+                          <div class="dropdown-menu dropdown-menu-right dropdown-arrow-none">
+                            <a class="dropdown-item" href="tel:{{phone_number}}"><span class="fa fa-phone"></span>Llamar a FullMec</a>
+                            <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#callme-modal" (click)="solicitarLlmadaModal(current_request.id)"><span class="fa fa-envelope-o" ></span>Solicitar llamada</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-block">
+
+                  <table class="table table-striped">
+                    <tr>
+                      <td>Cliente</td>
+                      <td>{{current_request.client.full_name}}</td>
+                    </tr>
+                    <tr>
+                      <td>Vehículo</td>
+                      <td>{{current_request.car.patent}}</td>
+                    </tr>
+                    <tr>
+                      <td>Fecha</td>
+                      <td>{{current_request.start_time_schedule_requested | date:'dd-MM-y' }}</td>
+                    </tr>
+                    <tr>
+                      <td>Hora</td>
+                      <td>{{current_request.start_time_schedule_requested | date:'HH:mm' }}</td>
+                    </tr>
+                  </table>
+
+                  <div class="card-actions">
+                    <a href="javascript:void(0)" class="btn btn-danger float-xs-left" (click)="anularTrabajoModal(current_request.id)">Cancelar</a>
+                    <a href="javascript:void(0)" class="btn btn-info float-xs-right" (click)="finalizarTrabajoModal(current_request.id)">Finalizar</a>
+                  </div>
+
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Pending Work -->
+<div class="row old_requests">
+  <div class="card">
+    <div class="card-header">
+      <span>Trabajos Pendientes</span>
+    </div>
+    <div class="card-block">
+      <div class="row" *ngIf="old_requests.length > 0">
+        <div *ngFor="let req of old_requests; let i = index" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 bottom-15">
+            <div class="card">
+
+                <div class="card-header">
+                  <div class="row">
+                    <div class="col-xs-8"><span class="card-title">ID # {{req.id}}</span></div>
+                    <div class="col-xs-4">
+                      <div class="text-xs-right">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="fa fa-wrench"></span></button>
+                          <div class="dropdown-menu dropdown-menu-right dropdown-arrow-none">
+                            <a class="dropdown-item" *ngIf="req.status !== 10" (click)="goPageEdit(req.id)"><span class="fa fa-pencil"></span>Modificar solicitud</a>
+                            <a class="dropdown-item" href="tel:{{phone_number}}"><span class="fa fa-phone"></span>Llamar a FullMec</a>
+                            <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#callme-modal" (click)="solicitarLlmadaModal(req.id)"><span class="fa fa-envelope-o" ></span>Solicitar llamada</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-block">
+                  <table class="table table-striped">
+                    <tr>
+                      <td>Cliente</td>
+                      <td>{{req.client.full_name}}</td>
+                    </tr>
+                    <tr>
+                      <td>Vehículo</td>
+                      <td>{{req.car.patent}}</td>
+                    </tr>
+                    <tr>
+                      <td>Fecha</td>
+                      <td>{{req.start_time_schedule_requested | date:'dd-MM-y' }}</td>
+                    </tr>
+                    <tr>
+                      <td>Hora</td>
+                      <td>{{req.start_time_schedule_requested | date:'HH:mm' }}</td>
+                    </tr>
+                  </table>
+
+                  <div class="card-actions">
+                    <a [routerLink]="['/pages/trabajo/view/',req.id]" class="btn btn-warning">Ver datalle</a>
+                    <button [hidden]="!puedeComenzar(i)" class="btn btn-info" (click)="comenzarTrabajoModal(req.id)" data-target="#begin-work" data-toggle="modal">Comenzar</button>
+                  </div>
+
+                </div>
+            </div>
+        </div>
+      </div>
+    </div> <!-- end .card-block -->
+  </div><!-- end .card -->
+</div><!-- end .old_requests -->
+
+<!-- Finalizar Trabajo -->
+<div id="finish-work-modal" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="modal-finish-work">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-danger">
+                <h4 class="modal-title"><i class="fa fa-warning"></i>Finalizar Trabajo</h4>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro que deseas finalizar el trabajo?
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" type="button">No</button>
+                <button class="btn btn-danger" data-dismiss="modal" type="button" id="finish-work-btn-confirm" (click)="finalizarTrabajo()">Sí</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- llamar a mecánico -->
+<div id="callme-modal" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="callme-now">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-warning">
+                    <h4 class="modal-title"><i class="fa fa-warning"></i>Solicitar llamada</h4>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-xs-center">¿Estás seguro que deseas solicitar llamada?</p>
+                    <p class="text-xs-center">Al aceptar, se enviará un correo a Fullmec avisando que debe llamarlo, respecto al trabajo mencionado</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">No</button>
+                    <button class="btn btn-primary" data-dismiss="modal" type="button" id="callme-btn-confirm" (click)="solicitarLlamada()">Sí</button>
+                </div>
+            </div>
+        </div>
+</div>
+
+<!-- Empezar Trabajo -->
+<div id="begin-work" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="modal-error-label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-primary">
+                    <h4 class="modal-title"><i class="fa fa-warning"></i>Comenzar Trabajo</h4>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-xs-center">¿Estás seguro que deseas Comenzar el Trabajo?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">No</button>
+                    <button class="btn btn-primary" data-dismiss="modal" type="button" (click)="comenzarTrabajo()">Sí</button>
+                </div>
+            </div>
+        </div>
+</div>
+
+<!-- Cancelar Trabajo -->
+<div id="abort-work-modal" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="modal-cancel-work">
+        <div class="modal-dialog" role="document">
+            <div *ngIf="cancelList.length > 0">
+                <form #cancelForm="ngForm" novalidate class="form" (ngSubmit)="anularTrabajo()">
+                    <div class="modal-content">
+                        <div class="modal-header modal-primary">
+                            <h4 class="modal-title"><i class="fa fa-warning"></i>Anular Trabajo</h4>
+                            <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <h6 class="text-xs-center">¿Estás seguro que deseas Anular el Trabajo?</h6>
+                            <p class="text-xs-center">Por favor seleccione un motivo de Cancelación</p>
+
+                            <div class="form-group">
+                                <select class="form-control" id="cancelOptionsList" [(ngModel)]="cancelWork.subject_id" name="subject_id" required>
+                                    <option *ngFor="let option of cancelList" [value]="option.id" [selected]="option.id==''">{{option.description}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <textarea name="message" class="form-control" rows="4" [(ngModel)]="cancelWork.message" [maxLength]="255" required></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-dismiss="modal" type="button">No</button>
+                            <button class="btn btn-primary" [disabled]="!cancelForm.form.valid" type="submit">Sí</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+</div>
+
+<!-- Mensajes Toast -->
+<ng2-toasty [position]="'top-right'"></ng2-toasty>
+<!-- Mensaje Spinner -->
+<spinner [isRunning]="isRequesting" [message]="messageRequesting"></spinner>
